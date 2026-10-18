@@ -59,26 +59,26 @@
     let slots = [];
     const ch = c => (c === ' ' ? ' ' : c);
 
-    function makeGlyph(c) {
+    function makeGlyph(c, red) {
         const g = document.createElement('span');
-        g.className = 'hx-g';
+        g.className = red ? 'hx-g hx-g--red' : 'hx-g';
         g.textContent = ch(c);
         return g;
     }
-    function addSlot(c, hidden) {
+    function addSlot(c, hidden, red) {
         const s = document.createElement('span');
         s.className = 'hx-l';
-        const g = makeGlyph(c);
+        const g = makeGlyph(c, red);
         if (hidden) g.style.opacity = '0';
         s.appendChild(g);
         wordEl.appendChild(s);
         slots.push(s);
         return s;
     }
-    function buildWord(text, hidden) {
+    function buildWord(text, hidden, red) {
         wordEl.textContent = '';
         slots = [];
-        [...text].forEach(c => addSlot(c, hidden));
+        [...text].forEach(c => addSlot(c, hidden, red));
         wordEl.setAttribute('aria-label', text);
     }
     const glyph = i => slots[i].querySelector('.hx-g');
@@ -240,10 +240,10 @@
             let g;
             if (k < slots.length) {
                 const old = glyph(k);
-                g = makeGlyph(to[k]);
+                g = makeGlyph(to[k], true);
                 old.replaceWith(g);
             } else {
-                g = addSlot(to[k]).firstChild;
+                g = addSlot(to[k], false, true).firstChild;
             }
             g.animate([
                 { transform: 'perspective(400px) rotateX(-90deg)', opacity: .2, filter: 'blur(4px)' },
@@ -274,7 +274,7 @@
 
     function finishNow() {
         hero.getAnimations({ subtree: true }).forEach(a => a.cancel());
-        buildWord(CFG.word, false);
+        buildWord(CFG.word, false, true);
         layout();
         wrap.style.transform = pose.final;
         hero.classList.add('is-ready');

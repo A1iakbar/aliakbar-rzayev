@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="hero.css">
     <link rel="stylesheet" href="journey.css">
+    <link rel="stylesheet" href="sections.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet">
@@ -62,45 +63,75 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="about">
+    <section id="about" class="ab">
         <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>
-                        I'm a passionate Data Scientist and Machine Learning Engineer with expertise 
-                        in transforming complex data into actionable business insights. My journey 
-                        combines academic excellence with hands-on industry experience in NLP, 
-                        predictive modeling, and data visualization.
-                    </p>
-                    <p>
-                        Currently pursuing my MSc in Data Science at the University of Sheffield, 
-                        I bring a strong foundation in Industrial Engineering and practical experience 
-                        from working with leading companies like LC Waikiki and NewMind AI.
-                    </p>
-                    <div class="skills-grid">
-                        <div class="skill-category">
-                            <h3>Languages & Tools</h3>
-                            <div class="skill-tags">
-                                <span class="skill-tag">Python</span>
-                                <span class="skill-tag">SQL</span>
-                                <span class="skill-tag">Tableau</span>
-                                <span class="skill-tag">JavaScript</span>
-                                <span class="skill-tag">HTML/CSS</span>
-                            </div>
-                        </div>
-                        <div class="skill-category">
-                            <h3>Technologies</h3>
-                            <div class="skill-tags">
-                                <span class="skill-tag">Machine Learning</span>
-                                <span class="skill-tag">Deep Learning</span>
-                                <span class="skill-tag">NLP</span>
-                                <span class="skill-tag">LLMs</span>
-                                <span class="skill-tag">Data Analysis</span>
-                            </div>
+            <p class="ab-kicker"><span>01</span> About me</p>
+
+            <!-- Words light up as you scroll. Words inside <em> turn red. -->
+            <h2 class="ab-statement" data-scrub>
+                I'm a data scientist and ML engineer who turns <em>messy data</em> into <em>clear decisions</em>
+                — from NLP models for the legal sector to demand forecasts and dashboards that teams actually use.
+            </h2>
+            <p class="ab-lede">
+                With a foundation in Industrial Engineering and an MSc in Data Science from the University of Sheffield,
+                I've worked with companies like LC Waikiki and NewMind AI on everything from SQL pipelines to fine-tuned language models.
+            </p>
+
+            <div class="ab-bento">
+                <!-- Path -->
+                <article class="ab-tile ab-path">
+                    <p class="ab-label">The path</p>
+                    <h3>From optimising factories to optimising models.</h3>
+                    <ol class="ab-steps">
+                        <li><b>Industrial Engineering</b><small>Yıldız Technical Univ.</small></li>
+                        <li><b>Teaching &amp; Analytics</b><small>DataStat · MIUUL · CovAze</small></li>
+                        <li><b>ML &amp; NLP</b><small>NewMind AI · LC Waikiki</small></li>
+                        <li><b>MSc Data Science</b><small>Univ. of Sheffield</small></li>
+                    </ol>
+                </article>
+
+                <!-- Location -->
+                <article class="ab-tile ab-loc">
+                    <p class="ab-label">Based in</p>
+                    <h3>Sheffield, UK</h3>
+                    <p class="ab-time"><span class="ab-clock">--:--</span> local time</p>
+                    <canvas class="ab-dots" aria-hidden="true"></canvas>
+                </article>
+
+                <!-- Numbers -->
+                <article class="ab-tile ab-stats">
+                    <p class="ab-label">In numbers</p>
+                    <ul>
+                        <li><b data-count="5">0</b><span>roles</span></li>
+                        <li><b data-count="auto-projects">0</b><span>projects</span></li>
+                        <li><b data-count="auto-certs">0</b><span>certificates</span></li>
+                        <li><b data-count="2">0</b><span>hackathon awards</span></li>
+                    </ul>
+                </article>
+
+                <!-- Toolkit marquee -->
+                <article class="ab-tile ab-tools">
+                    <p class="ab-label">Toolkit</p>
+                    <div class="ab-marquee">
+                        <div class="ab-track">
+                            <span>Python</span><span>SQL</span><span>PySpark</span><span>Databricks</span><span>Tableau</span><span>Excel</span><span>KNIME</span><span>SPSS</span><span>JavaScript</span><span>HTML/CSS</span>
                         </div>
                     </div>
-                </div>
+                    <div class="ab-marquee ab-marquee--rev">
+                        <div class="ab-track">
+                            <span>Machine Learning</span><span>Deep Learning</span><span>NLP</span><span>LLMs</span><span>Fine-tuning</span><span>Forecasting</span><span>A/B Testing</span><span>CRM Analytics</span><span>Data Visualisation</span><span>UX Research</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- CTA -->
+                <a class="ab-tile ab-cta" href="#contact">
+                    <p class="ab-label">Say hi</p>
+                    <h3>Let's build something with data.</h3>
+                    <span class="ab-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+                    </span>
+                </a>
             </div>
         </div>
     </section>
@@ -109,6 +140,7 @@
     <section id="experience" class="journey">
         <span id="education" class="jr-anchor" aria-hidden="true"></span>
         <div class="container">
+            <p class="ab-kicker ab-kicker--center"><span>02</span> Experience &amp; education</p>
             <h2 class="section-title">My Journey</h2>
             <p class="jr-intro">Work and education on one timeline. Pick any bar to see the details.</p>
 
@@ -209,121 +241,123 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="projects">
+    <section id="projects" class="pj">
         <div class="container">
-            <h2 class="section-title">Personal Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-music"></i>
-                    </div>
-                    <h3>Moodify</h3>
-                    <p>ML project predicting music emotions and offering users more effective recommendations. Categorizes songs into Sad-Happy and Calm-Energetic based on energy/stress levels. Utilizes Spotify API for data gathering.</p>
-                    <div class="project-tags">
-                        <span class="project-tag">Machine Learning</span>
-                        <span class="project-tag">Spotify API</span>
-                        <span class="project-tag">Python</span>
-                    </div>
-                    <a href="https://github.com/A1iakbar/Moodify" class="project-link" target="_blank">View on Github <i class="fas fa-external-link-alt"></i></a>
+            <div class="pj-head">
+                <div>
+                    <p class="ab-kicker"><span>03</span> Selected work</p>
+                    <h2 class="pj-title-big">Projects</h2>
                 </div>
+                <div class="pj-filters" role="group" aria-label="Filter projects">
+                    <button type="button" class="pj-chip is-on" data-filter="all">All</button>
+                    <button type="button" class="pj-chip" data-filter="ml">Machine Learning</button>
+                    <button type="button" class="pj-chip" data-filter="analytics">Analytics</button>
+                    <button type="button" class="pj-chip" data-filter="build">Web &amp; UX</button>
+                </div>
+            </div>
 
-                <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <h3>Tour Package Builder Website</h3>
-                    <p>Implemented automation using HTML/CSS, JavaScript, reducing proposal preparation time significantly. Replaced the manual process with a dynamic system that generates and exports tour offers as PDF documents.</p>
-                    <div class="project-tags">
-                        <span class="project-tag">JavaScript</span>
-                        <span class="project-tag">HTML/CSS</span>
-                        <span class="project-tag">Automation</span>
-                    </div>
-                    <a href="https://a1iakbar.github.io/tour-package-builder/" class="project-link" target="_blank">View Website <i class="fas fa-external-link-alt"></i></a>
-                </div>
+            <!--
+                ======== EDIT YOUR PROJECTS HERE ========
+                data-cat    : ml | analytics | build   (used by the filters)
+                data-art    : mood | route | cltv | sigmoid | roc | graph | blocks | candles
+                              (the little live chart shown on hover)
+                data-metric : short highlight shown under the chart
+            -->
+            <ol class="pj-list">
+                <li class="pj-item" data-cat="ml" data-art="mood" data-metric="Spotify API · 2 mood axes">
+                    <a class="pj-link" href="https://github.com/A1iakbar/Moodify" target="_blank" rel="noopener">
+                        <span class="pj-num"></span>
+                        <span class="pj-main">
+                            <span class="pj-name">Moodify</span>
+                            <span class="pj-desc">Predicts a song's mood (sad ↔ happy, calm ↔ energetic) from Spotify audio features for better recommendations.</span>
+                        </span>
+                        <span class="pj-tags">Machine Learning · Python</span>
+                        <span class="pj-go">GitHub <i>↗</i></span>
+                    </a>
+                </li>
+                <li class="pj-item" data-cat="ml" data-art="roc" data-metric="AUC 0.922">
+                    <a class="pj-link" href="https://drive.google.com/file/d/1rR3Xdo-njdARR_1WAWQhPRuhjkd4yjfg/view?usp=sharing" target="_blank" rel="noopener">
+                        <span class="pj-num"></span>
+                        <span class="pj-main">
+                            <span class="pj-name">Airline Passenger Satisfaction</span>
+                            <span class="pj-desc">Logistic Regression vs Random Forest on 5,196 records and 21 predictors, with backward feature elimination.</span>
+                        </span>
+                        <span class="pj-tags">Classification · KNIME</span>
+                        <span class="pj-go">Report <i>↗</i></span>
+                    </a>
+                </li>
+                <li class="pj-item" data-cat="analytics" data-art="graph" data-metric="PySpark · Databricks">
+                    <a class="pj-link" href="https://drive.google.com/file/d/1riCmP7pai3-4727NWIAQ77MjuqY3rjd4/view?usp=sharing" target="_blank" rel="noopener">
+                        <span class="pj-num"></span>
+                        <span class="pj-main">
+                            <span class="pj-name">ICLR × OpenAlex Citations</span>
+                            <span class="pj-desc">Large-scale analysis joining ICLR submissions with citation data, tracking trends like "test-time scaling".</span>
+                        </span>
+                        <span class="pj-tags">Big Data · PySpark</span>
+                        <span class="pj-go">Report <i>↗</i></span>
+                    </a>
+                </li>
+                <li class="pj-item" data-cat="analytics" data-art="cltv" data-metric="BG-NBD + Gamma-Gamma">
+                    <a class="pj-link" href="https://www.kaggle.com/code/aliakbarrzayev/cltv-forecast-with-bg-nbd-and-gamma-gamma-models" target="_blank" rel="noopener">
+                        <span class="pj-num"></span>
+                        <span class="pj-main">
+                            <span class="pj-name">CLTV Forecast</span>
+                            <span class="pj-desc">Forecasts customer lifetime value to find high-value customers and sharpen marketing strategy.</span>
+                        </span>
+                        <span class="pj-tags">Forecasting · Python</span>
+                        <span class="pj-go">Kaggle <i>↗</i></span>
+                    </a>
+                </li>
+                <li class="pj-item" data-cat="analytics" data-art="sigmoid" data-metric="N = 3,453 respondents">
+                    <a class="pj-link" href="https://drive.google.com/file/d/1aAVaNo4RYXIAHIEt9MC2yfuM5nnnlAU-/view?usp=sharing" target="_blank" rel="noopener">
+                        <span class="pj-num"></span>
+                        <span class="pj-main">
+                            <span class="pj-name">Use-By Date Checking in the UK</span>
+                            <span class="pj-desc">Binary logistic regression on a nationally representative survey to find what predicts safe food behaviour.</span>
+                        </span>
+                        <span class="pj-tags">Statistics · SPSS</span>
+                        <span class="pj-go">Report <i>↗</i></span>
+                    </a>
+                </li>
+                <li class="pj-item" data-cat="ml" data-art="candles" data-metric="Kaggle competition">
+                    <a class="pj-link" href="https://www.kaggle.com/code/aliakbarrzayev/tasar-m-2-optivier-trading-at-close" target="_blank" rel="noopener">
+                        <span class="pj-num"></span>
+                        <span class="pj-main">
+                            <span class="pj-name">Optiver Trading at Close</span>
+                            <span class="pj-desc">Predicting closing-price movements for hundreds of Nasdaq-listed stocks.</span>
+                        </span>
+                        <span class="pj-tags">Time Series · ML</span>
+                        <span class="pj-go">Kaggle <i>↗</i></span>
+                    </a>
+                </li>
+                <li class="pj-item" data-cat="build" data-art="route" data-metric="Auto-generated PDF proposals">
+                    <a class="pj-link" href="https://a1iakbar.github.io/tour-package-builder/" target="_blank" rel="noopener">
+                        <span class="pj-num"></span>
+                        <span class="pj-main">
+                            <span class="pj-name">Tour Package Builder</span>
+                            <span class="pj-desc">A web app that replaced a manual process and exports ready-to-send tour offers as PDFs.</span>
+                        </span>
+                        <span class="pj-tags">JavaScript · Automation</span>
+                        <span class="pj-go">Live site <i>↗</i></span>
+                    </a>
+                </li>
+                <li class="pj-item" data-cat="build" data-art="blocks" data-metric="Nielsen's 10 heuristics">
+                    <a class="pj-link" href="https://drive.google.com/file/d/1_jBtrTbOGFbQb0EcMaC5himSzwtk7lhr/view?usp=sharing" target="_blank" rel="noopener">
+                        <span class="pj-num"></span>
+                        <span class="pj-main">
+                            <span class="pj-name">Heuristic Analysis of Notion</span>
+                            <span class="pj-desc">Persona-driven usability review of onboarding and database creation, with redesign proposals.</span>
+                        </span>
+                        <span class="pj-tags">UX Research · HCI</span>
+                        <span class="pj-go">Report <i>↗</i></span>
+                    </a>
+                </li>
+            </ol>
 
-                <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>CLTV Forecast with BG-NBD and Gamma-Gamma Models</h3>
-                    <p>Utilized BG-NBD and Gamma-Gamma models to forecast Customer Lifetime Value (CLTV). Identified high-value customers, optimized marketing strategies, and provided data-driven recommendations.</p>
-                    <div class="project-tags">
-                        <span class="project-tag">Machine Learning</span>
-                        <span class="project-tag">CLTV</span>
-                        <span class="project-tag">Python</span>
-                    </div>
-                    <a href="https://www.kaggle.com/code/aliakbarrzayev/cltv-forecast-with-bg-nbd-and-gamma-gamma-models" class="project-link" target="_blank">View on Kaggle <i class="fas fa-external-link-alt"></i></a>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-flask"></i>
-                    </div>
-                    <h3>Factors Associated with Use-By Date Checking in the UK</h3>
-                    <p>Conducted binary logistic regression on a nationally representative UK survey (N=3,453) to identify predictors of consistent food safety behaviour. Performed chi-square tests, ROC analysis (AUC=0.596), and assessed model fit using Hosmer–Lemeshow and Nagelkerke R².</p>
-                    <div class="project-tags">
-                        <span class="project-tag">Logistic Regression</span>
-                        <span class="project-tag">SPSS</span>
-                        <span class="project-tag">Statistical Analysis</span>
-                    </div>
-                    <a href="https://drive.google.com/file/d/1aAVaNo4RYXIAHIEt9MC2yfuM5nnnlAU-/view?usp=sharing" class="project-link" target="_blank">View Report <i class="fas fa-external-link-alt"></i></a>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-plane"></i>
-                    </div>
-                    <h3>Airline Passenger Satisfaction Prediction</h3>
-                    <p>Compared Logistic Regression and Random Forest to classify passenger satisfaction across 5,196 airline records and 21 predictors. Applied backward feature elimination and achieved an AUC of 0.922, identifying Type of Travel and Online Check-in as key satisfaction drivers.</p>
-                    <div class="project-tags">
-                        <span class="project-tag">Data Mining</span>
-                        <span class="project-tag">KNIME</span>
-                        <span class="project-tag">Classification</span>
-                    </div>
-                    <a href="https://drive.google.com/file/d/1rR3Xdo-njdARR_1WAWQhPRuhjkd4yjfg/view?usp=sharing" class="project-link" target="_blank">View Report <i class="fas fa-external-link-alt"></i></a>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h3>Analysis of ICLR Submissions and OpenAlex Citation Data</h3>
-                    <p>Large-scale PySpark analysis on Databricks combining ICLR submission records with OpenAlex citation data. Standardised inconsistent decision labels, aggregated reviewer scores, and tracked emerging research keyword trends such as "test-time scaling" and "large reasoning models".</p>
-                    <div class="project-tags">
-                        <span class="project-tag">PySpark</span>
-                        <span class="project-tag">Databricks</span>
-                        <span class="project-tag">Big Data</span>
-                    </div>
-                    <a href="https://drive.google.com/file/d/1riCmP7pai3-4727NWIAQ77MjuqY3rjd4/view?usp=sharing" class="project-link" target="_blank">View Report <i class="fas fa-external-link-alt"></i></a>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-desktop"></i>
-                    </div>
-                    <h3>Interface Evaluation and Design: A Heuristic Analysis of Notion</h3>
-                    <p>Conducted a heuristic evaluation of Notion's onboarding and database creation workflow using Nielsen's usability heuristics. Identified key usability issues via a persona-driven approach and proposed redesigns to improve learnability and reduce cognitive load.</p>
-                    <div class="project-tags">
-                        <span class="project-tag">UX Research</span>
-                        <span class="project-tag">Heuristic Evaluation</span>
-                        <span class="project-tag">HCI</span>
-                    </div>
-                    <a href="https://drive.google.com/file/d/1_jBtrTbOGFbQb0EcMaC5himSzwtk7lhr/view?usp=sharing" class="project-link" target="_blank">View Report <i class="fas fa-external-link-alt"></i></a>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-chart-bar"></i>
-                    </div>
-                    <h3>Optivier Trading at Close - Kaggle Competition</h3>
-                    <p>Predicting the closing price movements for hundreds of Nasdaq listed stocks. Participated in competitive machine learning challenge.</p>
-                    <div class="project-tags">
-                        <span class="project-tag">Machine Learning</span>
-                        <span class="project-tag">Time Series</span>
-                        <span class="project-tag">Kaggle</span>
-                    </div>
-                    <a href="https://www.kaggle.com/code/aliakbarrzayev/tasar-m-2-optivier-trading-at-close" class="project-link" target="_blank">View on Kaggle <i class="fas fa-external-link-alt"></i></a>
-                </div>
+            <!-- floating preview that follows the cursor (desktop) -->
+            <div class="pj-preview" aria-hidden="true">
+                <canvas class="pj-canvas"></canvas>
+                <div class="pj-preview-foot"><span class="pj-preview-metric"></span><span class="pj-preview-cta">Open ↗</span></div>
             </div>
         </div>
     </section>
@@ -505,6 +539,7 @@
     <script src="script.js"></script>
     <script src="hero.js"></script>
     <script src="journey.js"></script>
+    <script src="sections.js"></script>
 </body>
 </html>
 

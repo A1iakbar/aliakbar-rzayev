@@ -219,3 +219,11 @@ html.hx-intro .navbar {
     }
     .logo { font-size: .8rem; letter-spacing: .1em; }
 }
+
+/* final word in the site red (name stays silver) */
+.hx-g--red {
+    background: linear-gradient(180deg, #ff5a5a 0%, #ef2b2b 38%, #c41818 72%, #7a0c0c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: drop-shadow(0 0 .12em rgba(220, 38, 38, .28));
+}
