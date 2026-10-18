@@ -2,13 +2,15 @@
 <html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
+    <script>document.documentElement.classList.add('hx-intro');</script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Aliakbar Rzayev - Data Scientist & Machine Learning Engineer based in Sheffield, UK">
     <title>Aliakbar Rzayev | Data Scientist</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="hero.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -16,7 +18,7 @@
     <nav class="navbar" id="navbar">
         <div class="container">
             <div class="nav-wrapper">
-                <a href="#home" class="logo">AR</a>
+                <a href="#home" class="logo">ALIAKBAR RZAYEV</a>
                 <ul class="nav-menu" id="navMenu">
                     <li><a href="#home" class="nav-link">Home</a></li>
                     <li><a href="#about" class="nav-link">About</a></li>
@@ -37,48 +39,28 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1 class="hero-title">
-                        <span class="greeting">Hi, I'm</span>
-                        <span class="name">Aliakbar Rzayev</span>
-                    </h1>
-                    <p class="hero-subtitle">Data Scientist & Machine Learning Engineer</p>
-                    <p class="hero-description">
-                        Transforming data into actionable insights through machine learning, 
-                        NLP, and advanced analytics. Currently pursuing MSc Data Science at 
-                        University of Sheffield.
-                    </p>
-                    <div class="hero-buttons">
-                        <a href="#contact" class="btn btn-primary">Get In Touch</a>
-                        <a href="#projects" class="btn btn-secondary">View Projects</a>
-                    </div>
-                    <div class="social-links">
-                        <a href="https://www.linkedin.com/in/aliakbarrzayev/" target="_blank" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="https://github.com/A1iakbar" target="_blank" aria-label="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://www.kaggle.com/aliakbarrzayev" target="_blank" aria-label="Kaggle">
-                            <i class="fab fa-kaggle"></i>
-                        </a>
-                        <a href="mailto:raliakbar27@gmail.com" aria-label="Email">
-                            <i class="fas fa-envelope"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <img src="https://i.ibb.co/GQRQ8bPN/Photo.jpg" alt="Aliakbar Rzayev" class="hero-photo">
-                </div>
+    <!-- Hero Section (animated intro) -->
+    <section id="home" class="hx" aria-label="Intro">
+        <div class="hx-ambient"></div>
+        <div class="hx-spot"></div>
+        <canvas class="hx-canvas" aria-hidden="true"></canvas>
+
+        <div class="hx-word-wrap">
+            <h1 class="hx-word" aria-label="Aliakbar Rzayev – Portfolio"></h1>
+        </div>
+        <div class="hx-measure" aria-hidden="true"></div>
+
+        <div class="hx-meta">
+            <p class="hx-role"><strong>Data Scientist</strong> <em>&amp; ML Engineer</em></p>
+            <div class="hx-actions">
+                <a href="#about" class="hx-btn hx-btn--round" aria-label="Scroll down">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 8M12 5v7H5"/></svg>
+                </a>
+                <a href="#contact" class="hx-btn">Contact</a>
             </div>
         </div>
-        <div class="scroll-indicator">
-            <a href="#about"><i class="fas fa-chevron-down"></i></a>
-        </div>
+
+        <button class="hx-skip" type="button">Skip intro</button>
     </section>
 
     <!-- About Section -->
@@ -549,6 +531,7 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="hero.js"></script>
 </body>
 </html>
 
