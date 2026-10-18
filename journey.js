@@ -191,4 +191,56 @@
         }, { threshold: .25 });
         io.observe(chart);
     }
+
+    /* ======================================================
+       PHONES: simple vertical timeline with Work / Education
+       tabs and tap-to-expand items (shown only ≤ 760px)
+       ====================================================== */
+    const m = document.createElement('div');
+    m.className = 'jr-m';
+    const tabs = document.createElement('div');
+    tabs.className = 'jr-m-tabs';
+    tabs.setAttribute('role', 'tablist');
+    const lists = {};
+    groups.forEach((g, gi) => {
+        const t = document.createElement('button');
+        t.type = 'button';
+        t.className = 'jr-m-tab' + (gi === 0 ? ' is-on' : '');
+        t.setAttribute('role', 'tab');
+        t.innerHTML = `${g.name}<span>${g.list.length}</span>`;
+        t.addEventListener('click', () => {
+            tabs.querySelectorAll('.jr-m-tab').forEach(x => x.classList.toggle('is-on', x === t));
+            Object.entries(lists).forEach(([k, ul]) => { ul.hidden = k !== g.kind; });
+        });
+        tabs.appendChild(t);
+
+        const ul = document.createElement('ol');
+        ul.className = `jr-m-list is-${g.kind}`;
+        ul.hidden = gi !== 0;
+        g.list.forEach((it, k) => {
+            const li = document.createElement('li');
+            li.className = 'jr-m-item' + (k === 0 ? ' is-open' : '');
+            const dates = `${label(it.start)} – ${it.present ? 'Present' : label(it.end)}`;
+            li.innerHTML = `
+                <button type="button" class="jr-m-head" aria-expanded="${k === 0}">
+                    <span class="jr-m-date">${dates}<i>${duration(it.start, it.end)}</i></span>
+                    <span class="jr-m-title">${it.title}${it.badge ? `<em>${it.badge}</em>` : ''}</span>
+                    <span class="jr-m-org">${it.org}</span>
+                    <span class="jr-m-plus" aria-hidden="true"></span>
+                </button>
+                <div class="jr-m-body"><div class="jr-m-inner">${it.el.innerHTML}</div></div>`;
+            li.querySelector('.jr-m-head').addEventListener('click', () => {
+                const open = !li.classList.contains('is-open');
+                ul.querySelectorAll('.jr-m-item').forEach(x => {
+                    x.classList.toggle('is-open', x === li && open);
+                    x.querySelector('.jr-m-head').setAttribute('aria-expanded', String(x === li && open));
+                });
+            });
+            ul.appendChild(li);
+        });
+        lists[g.kind] = ul;
+    });
+    m.appendChild(tabs);
+    Object.values(lists).forEach(ul => m.appendChild(ul));
+    root.insertBefore(m, chart);
 })();

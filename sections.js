@@ -76,6 +76,43 @@
         if (c) c.textContent = String(n).padStart(2, '0') + (n === 1 ? ' course' : ' courses');
     });
 
+    /* phones: course groups collapse into tap-to-open lists */
+    document.querySelectorAll('.ct-group').forEach(g => {
+        const h = g.querySelector('header');
+        if (!h) return;
+        h.setAttribute('role', 'button');
+        h.setAttribute('tabindex', '0');
+        h.setAttribute('aria-expanded', 'false');
+        const toggle = () => {
+            const open = g.classList.toggle('is-open');
+            h.setAttribute('aria-expanded', String(open));
+        };
+        h.addEventListener('click', () => { if (window.innerWidth <= 760) toggle(); });
+        h.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && window.innerWidth <= 760) { e.preventDefault(); toggle(); } });
+    });
+
+    /* phones: dots under the swipeable award cards */
+    const awards = document.querySelector('.ct-awards');
+    if (awards) {
+        const cards = [...awards.querySelectorAll('.ct-award')];
+        const dotsEl = document.createElement('div');
+        dotsEl.className = 'ct-dots';
+        cards.forEach((c, i) => {
+            const d = document.createElement('button');
+            d.type = 'button';
+            d.setAttribute('aria-label', 'Award ' + (i + 1));
+            d.addEventListener('click', () => awards.scrollTo({ left: c.offsetLeft - awards.offsetLeft, behavior: 'smooth' }));
+            dotsEl.appendChild(d);
+        });
+        awards.after(dotsEl);
+        const mark = () => {
+            const i = Math.round(awards.scrollLeft / Math.max(1, (cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : 1)));
+            [...dotsEl.children].forEach((d, k) => d.classList.toggle('is-on', k === Math.min(cards.length - 1, i)));
+        };
+        awards.addEventListener('scroll', () => requestAnimationFrame(mark), { passive: true });
+        mark();
+    }
+
     /* ======================= CONTACT ======================= */
 
     /* magnetic "Say hello" button */
