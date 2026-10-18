@@ -14,7 +14,16 @@
         word: 'PORTFOLIO',         // final big word
         photo: 'photo.png',        // your photo inside the repo (best: background removed, PNG)
         photoFallback: 'https://i.ibb.co/GQRQ8bPN/Photo.jpg',
-        fullIntroOncePerSession: true // on refresh in the same tab, play the short version
+        fullIntroOncePerSession: true, // on refresh in the same tab, play the short version
+
+        /* portrait placement (fractions of the hero height / width) */
+        photoTop: .08,       // where the top of your head sits (0 = top of screen)
+        photoBottom: 1.05,   // where the bottom of the photo ends (1 = bottom of screen)
+        photoMaxWidth: .6,   // max width of the person on desktop
+        contrast: 1.5,       // higher = more black & white, fewer grey particles
+
+        /* big word size */
+        wordWidth: .62       // width of the final word on desktop (mobile uses .9)
     };
     /* -------------------------------------------------------- */
 
@@ -92,8 +101,8 @@
     function layout() {
         const W = hero.clientWidth, H = hero.clientHeight;
         const w100 = textWidth(CFG.word, 100);
-        const maxW = Math.min(W * (W < 600 ? .92 : .88), 1500);
-        fs = Math.min(100 * maxW / w100, H * .3);
+        const maxW = Math.min(W * (W < 600 ? .9 : CFG.wordWidth), 1300);
+        fs = Math.min(100 * maxW / w100, H * .22);
         wordEl.style.fontSize = fs + 'px';
         measure.style.fontSize = fs + 'px';
 
@@ -324,74 +333,124 @@
             photoTried = true;
         })();
 
+        /* decide which pixels belong to the person (not the background).
+           The background colour is estimated per row from the left/right photo edges,
+           so plain and gently graded studio backgrounds are removed too. */
+        function makeKeyer(d, cols, rows) {
+            let alphaBorder = false;
+            for (let c = 0; c < cols; c++) if (d[c * 4 + 3] < 200) alphaBorder = true;
+            for (let r = 0; r < rows; r++) if (d[(r * cols) * 4 + 3] < 200 || d[(r * cols + cols - 1) * 4 + 3] < 200) alphaBorder = true;
+            if (alphaBorder) return (R, G, B, A) => A >= 128;
+
+            const lastRow = Math.max(1, Math.floor(rows * .6));
+            const L = [], Rr = [];
+            const avg = (r, c0, c1) => {
+                let a = 0, b = 0, e = 0, k = 0;
+                for (let c = c0; c <= c1; c++) { const i = (r * cols + c) * 4; a += d[i]; b += d[i + 1]; e += d[i + 2]; k++; }
+                return [a / k, b / k, e / k];
+            };
+            for (let r = 0; r < rows; r++) {
+                const rr = Math.min(r, lastRow);
+                L.push(avg(rr, 1, 3)); Rr.push(avg(rr, cols - 4, cols - 2));
+            }
+            /* how busy is the background? */
+            let spread = 0;
+            for (let r = 1; r < lastRow; r++) spread += Math.abs(L[r][0] - L[r - 1][0]) + Math.abs(Rr[r][1] - Rr[r - 1][1]);
+            spread /= lastRow * 2;
+            const lr = Math.abs(L[0][0] - Rr[0][0]) + Math.abs(L[0][1] - Rr[0][1]) + Math.abs(L[0][2] - Rr[0][2]);
+            const simple = spread < 6 && lr < 120;
+            if (!simple) {
+                /* busy background: just keep the brighter pixels (works for dark photos) */
+                return (R, G, B) => (.2126 * R + .7152 * G + .0722 * B) / 255 > .08;
+            }
+            return (R, G, B, A, u, v) => {
+                if (A < 128) return false;
+                const r = Math.min(rows - 1, Math.max(0, Math.floor(v * rows)));
+                const l = L[r], q = Rr[r];
+                const br = l[0] + (q[0] - l[0]) * u, bg = l[1] + (q[1] - l[1]) * u, bb = l[2] + (q[2] - l[2]) * u;
+                return Math.hypot(R - br, G - bg, B - bb) > 38;
+            };
+        }
+
         function sample(im) {
-            const ar = im.naturalWidth / im.naturalHeight;
-            let ph_ = H * .94, pw = ph_ * ar;
-            if (pw > W * .96) { pw = W * .96; ph_ = pw / ar; }
-            const ox = (W - pw) / 2, oy = H - ph_;
+            const iw = im.naturalWidth, ih = im.naturalHeight;
             const small = W < 700;
-            const maxN = small ? 9000 : 24000;
-            let g = small ? 2.6 : 2.5;
-            g = Math.max(g, Math.sqrt(pw * ph_ * .5 / maxN));
+
+            /* pass 1: find the person's bounding box in the photo */
+            const aw = 160, ah = Math.max(2, Math.round(aw * ih / iw));
+            const ac = document.createElement('canvas');
+            ac.width = aw; ac.height = ah;
+            const ax_ = ac.getContext('2d', { willReadFrequently: true });
+            ax_.drawImage(im, 0, 0, aw, ah);
+            const ad = ax_.getImageData(0, 0, aw, ah).data;
+            const keep1 = makeKeyer(ad, aw, ah);
+            const trim = 2;
+            let u0 = aw, u1 = 0, v0 = ah, v1 = 0;
+            const colCount = new Uint16Array(aw), rowCount = new Uint16Array(ah);
+            for (let r = trim; r < ah; r++) for (let c = trim; c < aw - trim; c++) {
+                const i = (r * aw + c) * 4;
+                if (keep1(ad[i], ad[i + 1], ad[i + 2], ad[i + 3], (c + .5) / aw, (r + .5) / ah)) { colCount[c]++; rowCount[r]++; }
+            }
+            const minC = ah * .015, minR = aw * .015;   // ignore stray specks
+            for (let c = 0; c < aw; c++) if (colCount[c] > minC) { u0 = Math.min(u0, c); u1 = Math.max(u1, c); }
+            for (let r = 0; r < ah; r++) if (rowCount[r] > minR) { v0 = Math.min(v0, r); v1 = Math.max(v1, r); }
+            if (u1 <= u0 || v1 <= v0) { u0 = 0; u1 = aw - 1; v0 = 0; v1 = ah - 1; }
+            /* box in real photo pixels; always keep everything down to the bottom of the photo */
+            const bx0 = u0 / aw * iw, bx1 = (u1 + 1) / aw * iw, by0 = v0 / ah * ih, by1 = ih;
+
+            /* place it: top of the head at photoTop, body runs off the bottom of the screen */
+            const top = H * CFG.photoTop;
+            let sc = (H * CFG.photoBottom - top) / (by1 - by0);
+            const maxW = W * (small ? 1.5 : CFG.photoMaxWidth);   // on phones the shoulders may run off-screen
+            if ((bx1 - bx0) * sc > maxW) sc = maxW / (bx1 - bx0);
+            const pw = (bx1 - bx0) * sc, ph_ = (by1 - by0) * sc;
+            const ox = W / 2 - pw / 2;
+            /* if the width limit made it smaller, slide it down so the body still reaches the bottom */
+            const oy = small ? top + H * .04 : Math.max(top, H * CFG.photoBottom - ph_);
+
+            /* pass 2: sample the person on a fine grid */
+            const maxN = small ? 10000 : 26000;
+            let g = small ? 2.4 : 2.2;
+            g = Math.max(g, Math.sqrt(pw * Math.min(ph_, H - oy) * .35 / maxN));
             const cols = Math.max(2, Math.round(pw / g)), rows = Math.max(2, Math.round(ph_ / g));
             const gx = pw / cols, gy = ph_ / rows;
-
+            const gxi = (bx1 - bx0) / cols, gyi = (by1 - by0) / rows;
             const oc = document.createElement('canvas');
             oc.width = cols; oc.height = rows;
             const o = oc.getContext('2d', { willReadFrequently: true });
             o.imageSmoothingQuality = 'high';
-            o.drawImage(im, 0, 0, cols, rows);
+            o.drawImage(im, bx0, by0, bx1 - bx0, by1 - by0, 0, 0, cols, rows);
             const d = o.getImageData(0, 0, cols, rows).data;
-
-            /* guess the background from the border (top row + upper sides) */
-            const br = [], bgc = [], bb = [];
-            let alphaBorder = false;
-            const push = i => { br.push(d[i]); bgc.push(d[i + 1]); bb.push(d[i + 2]); if (d[i + 3] < 200) alphaBorder = true; };
-            for (let c = 0; c < cols; c++) push(c * 4);
-            for (let r = 0; r < rows * .7; r++) { push((r * cols) * 4); push((r * cols + cols - 1) * 4); }
-            const med = a => a.sort((p, q) => p - q)[a.length >> 1];
-            const mr = med(br), mg = med(bgc), mb = med(bb);
-            let spread = 0;
-            for (let i = 0; i < br.length; i++) spread += Math.abs(br[i] - mr) + Math.abs(bgc[i] - mg) + Math.abs(bb[i] - mb);
-            spread /= br.length * 3;
-            const plainBg = !alphaBorder && spread < 26;
-            const keyed = plainBg || alphaBorder;   // background removed → keep dark clothes/hair too
 
             const pts = [];
             const hist = new Uint32Array(256);
             for (let r = 0; r < rows; r++) {
+                const py = oy + (r + .5) * gy;
+                if (py > H + 4) break;
                 for (let c = 0; c < cols; c++) {
                     const i = (r * cols + c) * 4;
-                    if (d[i + 3] < 128) continue;
-                    const R = d[i], G = d[i + 1], B = d[i + 2];
-                    if (plainBg) {
-                        const dist = Math.hypot(R - mr, G - mg, B - mb);
-                        if (dist < 40) continue;
-                    }
-                    let l = (.2126 * R + .7152 * G + .0722 * B) / 255;
-                    /* soften the left / right / top edge of the photo rectangle */
-                    const ex = Math.min(c, cols - 1 - c) / (cols * .1);
-                    const ey = r / (rows * .08);
-                    const edge = Math.min(1, ex, ey);
-                    if (!alphaBorder && !plainBg) l *= edge;
-                    if (l < (keyed ? .0 : .06)) continue;
-                    pts.push(ox + (c + .5) * gx + rand(-.3, .3) * gx, oy + (r + .5) * gy + rand(-.3, .3) * gy, l);
+                    if (!keep1(d[i], d[i + 1], d[i + 2], d[i + 3], (bx0 + (c + .5) * gxi) / iw, (by0 + (r + .5) * gyi) / ih)) continue;
+                    let l = (.2126 * d[i] + .7152 * d[i + 1] + .0722 * d[i + 2]) / 255;
+                    const edge = Math.min(1, Math.min(c, cols - 1 - c) / (cols * .05));   // soft left/right edge
+                    pts.push(ox + (c + .5) * gx + rand(-.3, .3) * gx, py + rand(-.3, .3) * gy, l, edge);
                     hist[Math.min(255, (l * 255) | 0)]++;
                 }
             }
-            /* stretch contrast between the 2nd and 98th percentile */
-            const cnt = pts.length / 3;
+
+            /* stretch contrast between the 3rd and 99th percentile */
+            const cnt = pts.length / 4;
             let acc = 0, lo = 0, hi = 255;
-            for (let v = 0; v < 256; v++) { acc += hist[v]; if (acc >= cnt * .02) { lo = v; break; } }
+            for (let v = 0; v < 256; v++) { acc += hist[v]; if (acc >= cnt * .03) { lo = v; break; } }
             acc = 0;
-            for (let v = 255; v >= 0; v--) { acc += hist[v]; if (acc >= cnt * .02) { hi = v; break; } }
+            for (let v = 255; v >= 0; v--) { acc += hist[v]; if (acc >= cnt * .01) { hi = v; break; } }
             lo /= 255; hi = Math.max(lo + .05, hi / 255);
 
+            /* black & white sparkle: bright areas dense, dark areas mostly empty */
             let out = [];
-            for (let i = 0; i < pts.length; i += 3) {
-                let l = Math.pow(Math.min(1, Math.max(0, (pts[i + 2] - lo) / (hi - lo))), .9);
-                if (keyed) l = .16 + .84 * l;
-                else if (l < .04) continue;
+            for (let i = 0; i < pts.length; i += 4) {
+                const l = Math.min(1, Math.max(0, (pts[i + 2] - lo) / (hi - lo)));
+                const chance = (.04 + .96 * Math.pow(l, CFG.contrast)) * pts[i + 3];
+                if (Math.random() > chance) continue;
                 out.push([pts[i], pts[i + 1], l]);
             }
             if (out.length > maxN) {
@@ -426,9 +485,10 @@
                 if (i < pts.length) {
                     const [px, py, l] = pts[i];
                     tx[i] = px; ty[i] = py;
-                    const k = rand(.8, 1.12);
-                    pa[i] = Math.min(1, (.14 + .95 * Math.pow(l, .95)) * k);
-                    cr[i] = Math.min(255, 165 + 90 * l); cg[i] = Math.min(255, 174 + 81 * l); cb[i] = Math.min(255, 205 + 50 * l);
+                    pa[i] = Math.min(1, (.3 + .75 * l) * rand(.85, 1.1));
+                    /* dim particles lean blue, bright ones go white (like the reference) */
+                    const w = Math.min(1, l * 1.15 + rand(-.12, .12));
+                    cr[i] = 95 + 150 * w; cg[i] = 120 + 130 * w; cb[i] = 200 + 55 * w;
                     dl[i] = .25 + (py / H) * .95 + rand(0, .75);
                 } else {
                     isStar[i] = 1;
