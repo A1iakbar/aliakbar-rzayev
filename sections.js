@@ -15,9 +15,8 @@
 
     /* ======================= ABOUT ======================= */
 
-    /* 1. statement: split into words, light them up while scrolling */
-    const scrub = document.querySelector('[data-scrub]');
-    if (scrub) {
+    /* 1. paragraphs: split into words, light them up while scrolling */
+    document.querySelectorAll('[data-scrub]').forEach(scrub => {
         const words = [];
         const split = node => {
             [...node.childNodes].forEach(n => {
@@ -38,114 +37,79 @@
         };
         split(scrub);
 
-        if (reduce) words.forEach(w => w.classList.add('on'));
-        else {
-            let ticking = false, lastLit = -1;
-            const update = () => {
-                ticking = false;
-                const r = scrub.getBoundingClientRect(), vh = window.innerHeight;
-                const p = Math.min(1, Math.max(0, (vh * .85 - r.top) / (r.height + vh * .35)));
-                const lit = Math.round(p * words.length);
-                if (lit === lastLit) return;
-                lastLit = lit;
-                words.forEach((w, i) => w.classList.toggle('on', i < lit));
-            };
-            window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-            window.addEventListener('resize', update);
-            update();
-        }
-    }
-
-    /* 2. bento: reveal + cursor spotlight */
-    const bento = document.querySelector('.ab-bento');
-    onView(bento, () => bento.classList.add('is-in'), .15);
-    document.querySelectorAll('.ab-tile').forEach(t => {
-        t.addEventListener('pointermove', e => {
-            const r = t.getBoundingClientRect();
-            t.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-            t.style.setProperty('--my', (e.clientY - r.top) + 'px');
-        });
+        if (reduce) { words.forEach(w => w.classList.add('on')); return; }
+        let ticking = false, lastLit = -1;
+        const update = () => {
+            ticking = false;
+            const r = scrub.getBoundingClientRect(), vh = window.innerHeight;
+            const p = Math.min(1, Math.max(0, (vh * .8 - r.top) / (r.height + vh * .2)));
+            const lit = Math.round(p * words.length);
+            if (lit === lastLit) return;
+            lastLit = lit;
+            words.forEach((w, i) => w.classList.toggle('on', i < lit));
+        };
+        window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+        window.addEventListener('resize', update);
+        update();
     });
 
-    /* 3. marquee: duplicate the content so it loops seamlessly */
-    document.querySelectorAll('.ab-track').forEach(tr => {
+    /* 2. skills ticker: duplicate content so it loops seamlessly */
+    document.querySelectorAll('.ab-ticker-track').forEach(tr => {
+        const n = tr.children.length;
         tr.innerHTML += tr.innerHTML;
-        [...tr.children].slice(tr.children.length / 2).forEach(c => c.setAttribute('aria-hidden', 'true'));
+        [...tr.children].slice(n).forEach(c => c.setAttribute('aria-hidden', 'true'));
     });
 
-    /* 4. Sheffield clock */
-    const clock = document.querySelector('.ab-clock');
-    if (clock) {
+    /* 3. Sheffield local time (About + Contact) */
+    const clocks = document.querySelectorAll('.ab-clock');
+    if (clocks.length) {
         const fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', hour: '2-digit', minute: '2-digit' });
-        const tick = () => { clock.textContent = fmt.format(new Date()); };
+        const tick = () => { const t = fmt.format(new Date()); clocks.forEach(c => { c.textContent = t; }); };
         tick();
         setInterval(tick, 15000);
     }
 
-    /* 5. dot-matrix "radar" with a pulse on Sheffield */
-    const dots = document.querySelector('.ab-dots');
-    if (dots) {
-        const ctx = dots.getContext('2d');
-        let w = 0, h = 0, running = false, visible = false;
-        const size = () => {
-            const dpr = Math.min(2, window.devicePixelRatio || 1);
-            w = dots.clientWidth; h = dots.clientHeight;
-            dots.width = w * dpr; dots.height = h * dpr;
-            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        };
-        const draw = t => {
-            ctx.clearRect(0, 0, w, h);
-            const cx = w * .62, cy = h * .52, gap = 11;
-            for (let y = gap / 2; y < h; y += gap) {
-                for (let x = gap / 2; x < w; x += gap) {
-                    const d = Math.hypot(x - cx, y - cy);
-                    const wave = Math.max(0, 1 - Math.abs(d - ((t * 60) % (Math.max(w, h)))) / 18);
-                    const a = .07 + wave * .5;
-                    ctx.fillStyle = wave > .05 ? `rgba(220,38,38,${a})` : `rgba(255,255,255,${a})`;
-                    ctx.fillRect(x - 1, y - 1, 2, 2);
-                }
-            }
-            const pulse = (Math.sin(t * 3) + 1) / 2;
-            ctx.beginPath(); ctx.arc(cx, cy, 10 + pulse * 8, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(220,38,38,${.18 * (1 - pulse)})`; ctx.fill();
-            ctx.beginPath(); ctx.arc(cx, cy, 4.5, 0, Math.PI * 2);
-            ctx.fillStyle = RED; ctx.shadowColor = RED; ctx.shadowBlur = 14; ctx.fill(); ctx.shadowBlur = 0;
-        };
-        const loop = now => {
-            if (!visible) { running = false; return; }
-            draw(now / 1000);
-            requestAnimationFrame(loop);
-        };
-        size();
-        window.addEventListener('resize', size);
-        if (reduce) draw(0);
-        else new IntersectionObserver(es => {
-            visible = es[0].isIntersecting;
-            if (visible && !running) { running = true; requestAnimationFrame(loop); }
-        }).observe(dots);
+    /* ======================= CERTIFICATES ======================= */
+    document.querySelectorAll('.ct-group').forEach(g => {
+        const n = g.querySelectorAll('li').length;
+        const c = g.querySelector('.ct-count');
+        if (c) c.textContent = String(n).padStart(2, '0') + (n === 1 ? ' course' : ' courses');
+    });
+
+    /* ======================= CONTACT ======================= */
+
+    /* magnetic "Say hello" button */
+    const zone = document.querySelector('.cx-magnet-zone');
+    const magnet = zone && zone.querySelector('.cx-magnet');
+    if (magnet && !reduce && window.matchMedia('(hover: hover)').matches) {
+        const inner = magnet.querySelector('.cx-magnet-inner');
+        zone.addEventListener('pointermove', e => {
+            const r = zone.getBoundingClientRect();
+            const dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+            magnet.style.transform = `translate(${dx * .35}px, ${dy * .35}px)`;
+            inner.style.transform = `translate(${dx * .15}px, ${dy * .15}px)`;
+        });
+        zone.addEventListener('pointerleave', () => { magnet.style.transform = ''; inner.style.transform = ''; });
     }
 
-    /* 6. counters */
-    const stats = document.querySelector('.ab-stats');
-    if (stats) {
-        const nums = [...stats.querySelectorAll('[data-count]')].map(b => {
-            let v = b.dataset.count;
-            if (v === 'auto-projects') v = document.querySelectorAll('.pj-item').length;
-            else if (v === 'auto-certs') v = document.querySelectorAll('.cert-card').length;
-            v = Number(v) || 0;
-            b.textContent = reduce ? v : 0;
-            return { b, v };
+    /* copy email */
+    document.querySelectorAll('.cx-copy').forEach(btn => {
+        const hint = btn.querySelector('.cx-copy-hint');
+        btn.addEventListener('click', async () => {
+            const text = btn.dataset.copy;
+            try {
+                await navigator.clipboard.writeText(text);
+                btn.classList.add('is-copied');
+                hint.textContent = 'Copied ✓';
+                setTimeout(() => { btn.classList.remove('is-copied'); hint.textContent = 'Copy'; }, 1800);
+            } catch (e) {
+                window.location.href = 'mailto:' + text;
+            }
         });
-        if (!reduce) onView(stats, () => {
-            const t0 = performance.now(), D = 1400;
-            const step = now => {
-                const p = Math.min(1, (now - t0) / D), e = 1 - Math.pow(1 - p, 3);
-                nums.forEach(({ b, v }) => { b.textContent = Math.round(v * e); });
-                if (p < 1) requestAnimationFrame(step);
-            };
-            requestAnimationFrame(step);
-        }, .25);
-    }
+    });
+
+    /* footer year */
+    document.querySelectorAll('.cx-year').forEach(y => { y.textContent = new Date().getFullYear(); });
 
     /* ======================= PROJECTS ======================= */
     const list = document.querySelector('.pj-list');

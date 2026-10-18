@@ -64,74 +64,29 @@
 
     <!-- About Section -->
     <section id="about" class="ab">
-        <div class="container">
-            <p class="ab-kicker"><span>01</span> About me</p>
+        <div class="container ab-grid">
+            <aside class="ab-side">
+                <p class="ab-kicker"><span>01</span> About me</p>
+                <dl class="ab-facts">
+                    <div><dt>Based in</dt><dd>Sheffield, UK <span class="ab-now"><i></i><span class="ab-clock">--:--</span></span></dd></div>
+                    <div><dt>Focus</dt><dd>NLP · Machine Learning · Analytics</dd></div>
+                    <div><dt>Education</dt><dd>MSc Data Science, University of Sheffield</dd></div>
+                    <div><dt>Background</dt><dd>BSc Industrial Engineering, Yıldız Technical University</dd></div>
+                </dl>
+            </aside>
 
             <!-- Words light up as you scroll. Words inside <em> turn red. -->
-            <h2 class="ab-statement" data-scrub>
-                I'm a data scientist and ML engineer who turns <em>messy data</em> into <em>clear decisions</em>
-                — from NLP models for the legal sector to demand forecasts and dashboards that teams actually use.
-            </h2>
-            <p class="ab-lede">
-                With a foundation in Industrial Engineering and an MSc in Data Science from the University of Sheffield,
-                I've worked with companies like LC Waikiki and NewMind AI on everything from SQL pipelines to fine-tuned language models.
-            </p>
+            <div class="ab-text" data-scrub>
+                <p>I'm a data scientist and ML engineer who turns <em>messy data</em> into <em>clear decisions.</em></p>
+                <p>I've built NLP models for the legal sector, forecast customer value and shipped dashboards that teams actually use, at companies like LC Waikiki and NewMind AI.</p>
+                <p>My engineering background taught me to think in systems; data science gave me the tools to measure them.</p>
+            </div>
+        </div>
 
-            <div class="ab-bento">
-                <!-- Path -->
-                <article class="ab-tile ab-path">
-                    <p class="ab-label">The path</p>
-                    <h3>From optimising factories to optimising models.</h3>
-                    <ol class="ab-steps">
-                        <li><b>Industrial Engineering</b><small>Yıldız Technical Univ.</small></li>
-                        <li><b>Teaching &amp; Analytics</b><small>DataStat · MIUUL · CovAze</small></li>
-                        <li><b>ML &amp; NLP</b><small>NewMind AI · LC Waikiki</small></li>
-                        <li><b>MSc Data Science</b><small>Univ. of Sheffield</small></li>
-                    </ol>
-                </article>
-
-                <!-- Location -->
-                <article class="ab-tile ab-loc">
-                    <p class="ab-label">Based in</p>
-                    <h3>Sheffield, UK</h3>
-                    <p class="ab-time"><span class="ab-clock">--:--</span> local time</p>
-                    <canvas class="ab-dots" aria-hidden="true"></canvas>
-                </article>
-
-                <!-- Numbers -->
-                <article class="ab-tile ab-stats">
-                    <p class="ab-label">In numbers</p>
-                    <ul>
-                        <li><b data-count="5">0</b><span>roles</span></li>
-                        <li><b data-count="auto-projects">0</b><span>projects</span></li>
-                        <li><b data-count="auto-certs">0</b><span>certificates</span></li>
-                        <li><b data-count="2">0</b><span>hackathon awards</span></li>
-                    </ul>
-                </article>
-
-                <!-- Toolkit marquee -->
-                <article class="ab-tile ab-tools">
-                    <p class="ab-label">Toolkit</p>
-                    <div class="ab-marquee">
-                        <div class="ab-track">
-                            <span>Python</span><span>SQL</span><span>PySpark</span><span>Databricks</span><span>Tableau</span><span>Excel</span><span>KNIME</span><span>SPSS</span><span>JavaScript</span><span>HTML/CSS</span>
-                        </div>
-                    </div>
-                    <div class="ab-marquee ab-marquee--rev">
-                        <div class="ab-track">
-                            <span>Machine Learning</span><span>Deep Learning</span><span>NLP</span><span>LLMs</span><span>Fine-tuning</span><span>Forecasting</span><span>A/B Testing</span><span>CRM Analytics</span><span>Data Visualisation</span><span>UX Research</span>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- CTA -->
-                <a class="ab-tile ab-cta" href="#contact">
-                    <p class="ab-label">Say hi</p>
-                    <h3>Let's build something with data.</h3>
-                    <span class="ab-arrow" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
-                    </span>
-                </a>
+        <!-- skills ticker -->
+        <div class="ab-ticker" aria-label="Skills">
+            <div class="ab-ticker-track">
+                <span>Python</span><b>✦</b><span>SQL</span><b>✦</b><span>NLP</span><b>✦</b><span>LLMs</span><b>✦</b><span>PySpark</span><b>✦</b><span>Machine Learning</span><b>✦</b><span>Tableau</span><b>✦</b><span>Forecasting</span><b>✦</b><span>A/B Testing</span><b>✦</b><span>Databricks</span><b>✦</b>
             </div>
         </div>
     </section>
@@ -363,176 +318,129 @@
     </section>
 
     <!-- Certificates Section -->
-    <section id="certificates" class="certificates">
+    <section id="certificates" class="ct">
         <div class="container">
-            <h2 class="section-title">Certificates</h2>
-            <div class="certificates-grid">
-                <a href="https://drive.google.com/file/d/1Z351LrLaSYt9q8ZAghMWi-wSlVpGNf2R/view?usp=sharing" class="cert-card" target="_blank" rel="noopener">
-                    <i class="fas fa-trophy"></i>
-                    <div class="cert-info">
-                        <span class="cert-name">First Prize Award - Hackathon</span>
-                    </div>
-                    <i class="fas fa-external-link-alt cert-link-icon"></i>
+            <div class="pj-head">
+                <div>
+                    <p class="ab-kicker"><span>04</span> Credentials</p>
+                    <h2 class="pj-title-big">Certificates</h2>
+                </div>
+                <p class="ct-lede">Awards from hackathons, and the courses that shaped my toolkit.</p>
+            </div>
+
+            <!-- Awards -->
+            <div class="ct-awards">
+                <a class="ct-award ct-award--gold" href="https://drive.google.com/file/d/1Z351LrLaSYt9q8ZAghMWi-wSlVpGNf2R/view?usp=sharing" target="_blank" rel="noopener">
+                    <span class="ct-rank">01</span>
+                    <svg class="ct-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M15 8h18v10a9 9 0 0 1-18 0V8z"/><path d="M15 12H8v3a7 7 0 0 0 7 7M33 12h7v3a7 7 0 0 1-7 7M24 27v7M17 40h14l-2-6H19l-2 6z"/></svg>
+                    <span class="ct-award-title">First Prize</span>
+                    <span class="ct-award-sub">Hackathon winner</span>
+                    <span class="ct-view">View certificate <i>↗</i></span>
                 </a>
-                <a href="https://drive.google.com/file/d/1uQAhjjCgYdUMq5q7JNko38GsF8rubJ2j/view?usp=sharing" class="cert-card" target="_blank" rel="noopener">
-                    <i class="fas fa-award"></i>
-                    <div class="cert-info">
-                        <span class="cert-name">People's Choice Award - Hackathon</span>
-                    </div>
-                    <i class="fas fa-external-link-alt cert-link-icon"></i>
+                <a class="ct-award" href="https://drive.google.com/file/d/1uQAhjjCgYdUMq5q7JNko38GsF8rubJ2j/view?usp=sharing" target="_blank" rel="noopener">
+                    <span class="ct-rank">02</span>
+                    <svg class="ct-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M24 6l5.2 10.6 11.8 1.7-8.5 8.3 2 11.7L24 32.8l-10.5 5.5 2-11.7L7 18.3l11.8-1.7L24 6z"/></svg>
+                    <span class="ct-award-title">People's Choice</span>
+                    <span class="ct-award-sub">Hackathon award</span>
+                    <span class="ct-view">View certificate <i>↗</i></span>
                 </a>
-                <a href="https://drive.google.com/file/d/1C2mHqsgi3CTGgcvcZStGhjCBTQPsRk1A/view?usp=drive_link" class="cert-card" target="_blank" rel="noopener">
-                    <i class="fas fa-certificate"></i>
-                    <div class="cert-info">
-                        <span class="cert-name">Certificate of Participation - Hackathon</span>
-                    </div>
-                    <i class="fas fa-external-link-alt cert-link-icon"></i>
-                </a>
-                <a href="https://drive.google.com/file/d/1XE8W_STmAeGj8I4UFW18YxIQyhgPyZaC/view?usp=sharing" class="cert-card" target="_blank" rel="noopener">
-                    <i class="fas fa-certificate"></i>
-                    <div class="cert-info">
-                        <span class="cert-name">Interactive Fiction Adventure Game with Python</span>
-                        <span class="cert-issuer">Coursera</span>
-                    </div>
-                    <i class="fas fa-external-link-alt cert-link-icon"></i>
-                </a>
-                <a href="https://learn.deeplearning.ai/accomplishments/729dffc2-d09d-4b74-93da-5f7a3289cec9?usp=sharing" class="cert-card" target="_blank" rel="noopener">
-                    <i class="fas fa-certificate"></i>
-                    <div class="cert-info">
-                        <span class="cert-name">ChatGPT Prompt Engineering for Developers</span>
-                        <span class="cert-issuer">DeepLearning.AI</span>
-                    </div>
-                    <i class="fas fa-external-link-alt cert-link-icon"></i>
-                </a>
-                <a href="https://certificate.miuul.com/aliakbar_rzayev" class="cert-card" target="_blank" rel="noopener">
-                    <i class="fas fa-certificate"></i>
-                    <div class="cert-info">
-                        <span class="cert-name">Data Scientist Bootcamp</span>
-                        <span class="cert-issuer">Miuul</span>
-                    </div>
-                    <i class="fas fa-external-link-alt cert-link-icon"></i>
-                </a>
-                <a href="https://learning.miuul.com/certificates/khj2biensb" class="cert-card" target="_blank" rel="noopener">
-                    <i class="fas fa-certificate"></i>
-                    <div class="cert-info">
-                        <span class="cert-name">Feature Engineering</span>
-                        <span class="cert-issuer">Miuul</span>
-                    </div>
-                    <i class="fas fa-external-link-alt cert-link-icon"></i>
-                </a>
-                <a href="https://learning.miuul.com/certificates/q8uteqw0qv" class="cert-card" target="_blank" rel="noopener">
-                    <i class="fas fa-certificate"></i>
-                    <div class="cert-info">
-                        <span class="cert-name">Introduction to Data Science and AI</span>
-                        <span class="cert-issuer">Miuul</span>
-                    </div>
-                    <i class="fas fa-external-link-alt cert-link-icon"></i>
-                </a>
-                <a href="https://learning.miuul.com/certificates/we0af8np7t" class="cert-card" target="_blank" rel="noopener">
-                    <i class="fas fa-certificate"></i>
-                    <div class="cert-info">
-                        <span class="cert-name">CRM Analytics</span>
-                        <span class="cert-issuer">Miuul</span>
-                    </div>
-                    <i class="fas fa-external-link-alt cert-link-icon"></i>
-                </a>
-                <a href="https://learning.miuul.com/certificates/66rvl0qfbh" class="cert-card" target="_blank" rel="noopener">
-                    <i class="fas fa-certificate"></i>
-                    <div class="cert-info">
-                        <span class="cert-name">Python Programming for Data Science</span>
-                        <span class="cert-issuer">Miuul</span>
-                    </div>
-                    <i class="fas fa-external-link-alt cert-link-icon"></i>
-                </a>
-                <a href="https://learning.miuul.com/certificates/jtauy0oqup" class="cert-card" target="_blank" rel="noopener">
-                    <i class="fas fa-certificate"></i>
-                    <div class="cert-info">
-                        <span class="cert-name">Machine Learning</span>
-                        <span class="cert-issuer">Miuul</span>
-                    </div>
-                    <i class="fas fa-external-link-alt cert-link-icon"></i>
-                </a>
-                <a href="https://learning.miuul.com/certificates/cau880pbfe" class="cert-card" target="_blank" rel="noopener">
-                    <i class="fas fa-certificate"></i>
-                    <div class="cert-info">
-                        <span class="cert-name">Recommendation Systems</span>
-                        <span class="cert-issuer">Miuul</span>
-                    </div>
-                    <i class="fas fa-external-link-alt cert-link-icon"></i>
-                </a>
-                <a href="https://learning.miuul.com/certificates/0hv5ofuvdi" class="cert-card" target="_blank" rel="noopener">
-                    <i class="fas fa-certificate"></i>
-                    <div class="cert-info">
-                        <span class="cert-name">Measurement Problems - A/B Testing</span>
-                        <span class="cert-issuer">Miuul</span>
-                    </div>
-                    <i class="fas fa-external-link-alt cert-link-icon"></i>
-                </a>
-                <a href="https://www.udemy.com/certificate/UC-ae46449d-817c-4ff8-b2e7-eb36afb9b270/" class="cert-card" target="_blank" rel="noopener">
-                    <i class="fas fa-certificate"></i>
-                    <div class="cert-info">
-                        <span class="cert-name">Automate the Boring Stuff with Python</span>
-                        <span class="cert-issuer">Udemy</span>
-                    </div>
-                    <i class="fas fa-external-link-alt cert-link-icon"></i>
-                </a>
-                <a href="http://ude.my/UC-7b7a34cf-256f-4f8a-93bd-acbc353d4ce4" class="cert-card" target="_blank" rel="noopener">
-                    <i class="fas fa-certificate"></i>
-                    <div class="cert-info">
-                        <span class="cert-name">Mastering OCR using Deep Learning</span>
-                        <span class="cert-issuer">Udemy</span>
-                    </div>
-                    <i class="fas fa-external-link-alt cert-link-icon"></i>
+                <a class="ct-award ct-award--muted" href="https://drive.google.com/file/d/1C2mHqsgi3CTGgcvcZStGhjCBTQPsRk1A/view?usp=drive_link" target="_blank" rel="noopener">
+                    <span class="ct-rank">03</span>
+                    <svg class="ct-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="19" r="10"/><path d="M17 27l-4 15 11-5 11 5-4-15"/></svg>
+                    <span class="ct-award-title">Participation</span>
+                    <span class="ct-award-sub">Hackathon</span>
+                    <span class="ct-view">View certificate <i>↗</i></span>
                 </a>
             </div>
-        </div>
-    </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <p>Want to have a chat?</p>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <a href="mailto:raliakbar27@gmail.com">raliakbar27@gmail.com</a>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-phone"></i>
-                            <a href="tel:+447350186804">+44 7350186804</a>
-                            <a href="tel:+905314071788">+90 5314071788</a>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Sheffield, United Kingdom</span>
-                        </div>
+            <!-- Courses, grouped by issuer -->
+            <div class="ct-groups">
+                <div class="ct-group ct-group--main">
+                    <header><span class="ct-issuer">Miuul</span><span class="ct-count"></span></header>
+                    <ul>
+                        <li><a href="https://certificate.miuul.com/aliakbar_rzayev" target="_blank" rel="noopener">Data Scientist Bootcamp<i>↗</i></a></li>
+                        <li><a href="https://learning.miuul.com/certificates/jtauy0oqup" target="_blank" rel="noopener">Machine Learning<i>↗</i></a></li>
+                        <li><a href="https://learning.miuul.com/certificates/khj2biensb" target="_blank" rel="noopener">Feature Engineering<i>↗</i></a></li>
+                        <li><a href="https://learning.miuul.com/certificates/cau880pbfe" target="_blank" rel="noopener">Recommendation Systems<i>↗</i></a></li>
+                        <li><a href="https://learning.miuul.com/certificates/we0af8np7t" target="_blank" rel="noopener">CRM Analytics<i>↗</i></a></li>
+                        <li><a href="https://learning.miuul.com/certificates/0hv5ofuvdi" target="_blank" rel="noopener">Measurement Problems: A/B Testing<i>↗</i></a></li>
+                        <li><a href="https://learning.miuul.com/certificates/66rvl0qfbh" target="_blank" rel="noopener">Python Programming for Data Science<i>↗</i></a></li>
+                        <li><a href="https://learning.miuul.com/certificates/q8uteqw0qv" target="_blank" rel="noopener">Introduction to Data Science and AI<i>↗</i></a></li>
+                    </ul>
+                </div>
+                <div class="ct-side">
+                    <div class="ct-group">
+                        <header><span class="ct-issuer">DeepLearning.AI</span><span class="ct-count"></span></header>
+                        <ul>
+                            <li><a href="https://learn.deeplearning.ai/accomplishments/729dffc2-d09d-4b74-93da-5f7a3289cec9?usp=sharing" target="_blank" rel="noopener">ChatGPT Prompt Engineering for Developers<i>↗</i></a></li>
+                        </ul>
                     </div>
-                    <div class="social-links">
-                        <a href="https://www.linkedin.com/in/aliakbarrzayev/" target="_blank" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="https://github.com/A1iakbar" target="_blank" aria-label="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://www.kaggle.com/aliakbarrzayev" target="_blank" aria-label="Kaggle">
-                            <i class="fab fa-kaggle"></i>
-                        </a>
-                        <a href="mailto:raliakbar27@gmail.com" aria-label="Email">
-                            <i class="fas fa-envelope"></i>
-                        </a>
+                    <div class="ct-group">
+                        <header><span class="ct-issuer">Udemy</span><span class="ct-count"></span></header>
+                        <ul>
+                            <li><a href="http://ude.my/UC-7b7a34cf-256f-4f8a-93bd-acbc353d4ce4" target="_blank" rel="noopener">Mastering OCR using Deep Learning<i>↗</i></a></li>
+                            <li><a href="https://www.udemy.com/certificate/UC-ae46449d-817c-4ff8-b2e7-eb36afb9b270/" target="_blank" rel="noopener">Automate the Boring Stuff with Python<i>↗</i></a></li>
+                        </ul>
+                    </div>
+                    <div class="ct-group">
+                        <header><span class="ct-issuer">Coursera</span><span class="ct-count"></span></header>
+                        <ul>
+                            <li><a href="https://drive.google.com/file/d/1XE8W_STmAeGj8I4UFW18YxIQyhgPyZaC/view?usp=sharing" target="_blank" rel="noopener">Interactive Fiction Adventure Game with Python<i>↗</i></a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
+    <!-- Contact Section -->
+    <section id="contact" class="cx">
         <div class="container">
-            <p>&copy; 2025 Aliakbar Rzayev. All rights reserved.</p>
+            <p class="ab-kicker"><span>05</span> Contact</p>
+            <div class="cx-hero">
+                <h2 class="cx-title">Got a role, a project<br>or a dataset? <span>Let's talk.</span></h2>
+                <div class="cx-magnet-zone">
+                    <a class="cx-magnet" href="mailto:raliakbar27@gmail.com">
+                        <span class="cx-magnet-inner">Say hello
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+                        </span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="cx-grid">
+                <div class="cx-cell">
+                    <p class="cx-label">Email</p>
+                    <button type="button" class="cx-copy" data-copy="raliakbar27@gmail.com">
+                        <span class="cx-copy-text">raliakbar27@gmail.com</span>
+                        <span class="cx-copy-hint">Copy</span>
+                    </button>
+                </div>
+                <div class="cx-cell">
+                    <p class="cx-label">Phone</p>
+                    <a href="tel:+447350186804">+44 7350 186804</a>
+                    <a href="tel:+905314071788">+90 531 407 17 88</a>
+                </div>
+                <div class="cx-cell">
+                    <p class="cx-label">Location</p>
+                    <p>Sheffield, United Kingdom</p>
+                    <p class="cx-muted"><span class="ab-clock">--:--</span> local time</p>
+                </div>
+            </div>
+
+            <nav class="cx-social" aria-label="Social links">
+                <a href="https://www.linkedin.com/in/aliakbarrzayev/" target="_blank" rel="noopener"><span>LinkedIn</span><i>↗</i></a>
+                <a href="https://github.com/A1iakbar" target="_blank" rel="noopener"><span>GitHub</span><i>↗</i></a>
+                <a href="https://www.kaggle.com/aliakbarrzayev" target="_blank" rel="noopener"><span>Kaggle</span><i>↗</i></a>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer cx-foot">
+        <div class="container">
+            <p>© <span class="cx-year">2026</span> Aliakbar Rzayev</p>
+            <a href="#home" class="cx-top">Back to top <i>↑</i></a>
         </div>
     </footer>
 
