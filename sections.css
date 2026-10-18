@@ -35,14 +35,8 @@
     overflow: hidden;
 }
 
-.ab-grid {
-    display: grid;
-    grid-template-columns: minmax(220px, 300px) 1fr;
-    gap: clamp(2rem, 6vw, 6rem);
-    align-items: start;
-}
-
-.ab-side { position: sticky; top: 110px; }
+.ab-grid { display: block; }
+.ab-side .ab-kicker { margin-bottom: 1.8rem; }
 
 .ab-facts { margin: 0; display: grid; gap: 1.15rem; }
 .ab-facts div { padding-bottom: 1.15rem; border-bottom: 1px solid rgba(255, 255, 255, .07); }
@@ -78,14 +72,13 @@
 }
 
 /* scroll-lit paragraphs */
-.ab-text { padding-top: 2.6rem; }
+.ab-text { max-width: 900px; }
 .ab-text p {
     font-size: clamp(1.3rem, 2.15vw, 1.85rem);
     font-weight: 500;
     line-height: 1.45;
     letter-spacing: -.02em;
     margin: 0 0 1.4rem;
-    max-width: 34em;
 }
 .ab-text .w {
     color: #2e2f33;
@@ -97,8 +90,8 @@
 
 /* big outlined skills ticker */
 .ab-ticker {
-    margin-top: 5.5rem;
-    padding: 1.6rem 0;
+    margin-top: 4.5rem;
+    padding: 1.1rem 0;
     border-top: 1px solid rgba(255, 255, 255, .06);
     border-bottom: 1px solid rgba(255, 255, 255, .06);
     overflow: hidden;
@@ -108,29 +101,25 @@
 .ab-ticker-track {
     display: flex;
     align-items: center;
-    gap: 2.2rem;
+    gap: 1.4rem;
     width: max-content;
-    animation: abScroll 45s linear infinite;
+    animation: abScroll 32s linear infinite;
 }
-.ab-ticker:hover .ab-ticker-track { animation-play-state: paused; }
 .ab-ticker span {
-    font-size: clamp(2.4rem, 6vw, 5rem);
-    font-weight: 800;
-    letter-spacing: -.04em;
+    font-size: clamp(1.15rem, 2vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: -.02em;
     line-height: 1;
     white-space: nowrap;
     color: transparent;
-    -webkit-text-stroke: 1px rgba(255, 255, 255, .28);
+    -webkit-text-stroke: 1px rgba(255, 255, 255, .4);
     transition: color .3s ease, -webkit-text-stroke-color .3s ease;
 }
 .ab-ticker span:hover { color: #fff; -webkit-text-stroke-color: #fff; }
-.ab-ticker b { color: var(--primary-color); font-size: 1.4rem; font-weight: 400; }
+.ab-ticker b { color: var(--primary-color); font-size: .8rem; font-weight: 400; }
 @keyframes abScroll { to { transform: translateX(-50%); } }
 
 @media (max-width: 860px) {
-    .ab-grid { grid-template-columns: 1fr; }
-    .ab-side { position: static; }
-    .ab-text { padding-top: 0; }
     .ab { padding-top: 5rem; }
     .ab-ticker { margin-top: 3.5rem; }
 }
