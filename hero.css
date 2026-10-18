@@ -25,7 +25,6 @@ html.hx-intro .navbar {
 .navbar:not(.scrolled) .nav-link:hover,
 .navbar:not(.scrolled) .nav-link.active { color: #fff; }
 .navbar:not(.scrolled) .nav-link::after { background: #fff; }
-.navbar:not(.scrolled) .theme-toggle { color: #fff; border-color: rgba(255, 255, 255, .25); }
 .navbar:not(.scrolled) .hamburger span { background: #fff; }
 .navbar:not(.scrolled) .logo { color: #fff; }
 

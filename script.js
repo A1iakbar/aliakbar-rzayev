@@ -1,33 +1,6 @@
-// Theme Toggle
-const themeToggle = document.getElementById('themeToggle');
-const themeIcon = document.getElementById('themeIcon');
-const html = document.documentElement;
-
-// Load saved theme or default to dark
-const savedTheme = localStorage.getItem('theme') || 'dark';
-html.setAttribute('data-theme', savedTheme);
-updateThemeIcon(savedTheme);
-
-// Theme toggle function
-function toggleTheme() {
-    const currentTheme = html.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    updateThemeIcon(newTheme);
-}
-
-function updateThemeIcon(theme) {
-    if (theme === 'dark') {
-        themeIcon.classList.remove('fa-sun');
-        themeIcon.classList.add('fa-moon');
-    } else {
-        themeIcon.classList.remove('fa-moon');
-        themeIcon.classList.add('fa-sun');
-    }
-}
-
-themeToggle.addEventListener('click', toggleTheme);
+// Single (dark) theme — also clears an old 'light' choice saved by the previous version
+document.documentElement.setAttribute('data-theme', 'dark');
+try { localStorage.removeItem('theme'); } catch (e) { /* storage blocked */ }
 
 // Mobile Menu Toggle
 const hamburger = document.getElementById('hamburger');

@@ -8,6 +8,7 @@
     <title>Aliakbar Rzayev | Data Scientist</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="hero.css">
+    <link rel="stylesheet" href="journey.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet">
@@ -22,14 +23,11 @@
                 <ul class="nav-menu" id="navMenu">
                     <li><a href="#home" class="nav-link">Home</a></li>
                     <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="#experience" class="nav-link">Experience</a></li>
+                    <li><a href="#experience" class="nav-link">Journey</a></li>
                     <li><a href="#projects" class="nav-link">Projects</a></li>
                     <li><a href="#certificates" class="nav-link">Certificates</a></li>
                     <li><a href="#contact" class="nav-link">Contact</a></li>
                 </ul>
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                    <i class="fas fa-moon" id="themeIcon"></i>
-                </button>
                 <div class="hamburger" id="hamburger">
                     <span></span>
                     <span></span>
@@ -107,130 +105,104 @@
         </div>
     </section>
 
-    <!-- Education Section -->
-    <section id="education" class="education">
+    <!-- Journey Section (Work + Education timeline) -->
+    <section id="experience" class="journey">
+        <span id="education" class="jr-anchor" aria-hidden="true"></span>
         <div class="container">
-            <h2 class="section-title">Education</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>MSc Data Science</h3>
-                            <span class="timeline-date">Sept 2025 - Sep 2026</span>
-                        </div>
-                        <p class="timeline-company">University of Sheffield</p>
-                        <p class="timeline-description">
-                            Relevant Courses: Data Mining and AI, Data Visualisation, Data Analysis, 
-                            Database Design, Business Intelligence, Data and Society, User Centered 
-                            Design and Human-Computer Interaction
-                        </p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>Data Scientist Bootcamp Participant</h3>
-                            <span class="timeline-date">Jan 2023 - May 2023</span>
-                        </div>
-                        <p class="timeline-company">Data Science School (VBO)</p>
-                        <p class="timeline-description">
-                            Participated in a comprehensive Data Scientist Bootcamp gained expertise in Machine Learning, A/B Testing, CRM, Feature Engineering, etc. Developed practical skills in data analysis and modeling through hands-on projects. Proficient in MSSQL for efficient data retrieval and manipulation.
-                        </p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>BSc Industrial Engineering</h3>
-                            <span class="timeline-date">Sept 2020 - Sep 2024</span>
-                        </div>
-                        <p class="timeline-company">Yıldız Technical University</p>
-                        <p class="timeline-gpa">GPA: 3.40</p>
-                        <p class="timeline-description">
-                            Relevant Courses: Mathematics, Artificial Intelligence and Expert Systems, 
-                            Advanced Computer Science, Probability, Statistics, Differential Equations, 
-                            Linear Algebra, Operation Research, Numerical Analysis, Scheduling, 
-                            Industrial Automation
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            <h2 class="section-title">My Journey</h2>
+            <p class="jr-intro">Work and education on one timeline. Pick any bar to see the details.</p>
 
-    <!-- Experience Section -->
-    <section id="experience" class="experience">
-        <div class="container">
-            <h2 class="section-title">Work Experience</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>Data Analyst Intern</h3>
-                            <span class="timeline-date">Mar 2025 - Jun 2025</span>
-                        </div>
-                        <p class="timeline-company">LC Waikiki IT & Software Department</p>
-                        <ul class="timeline-list">
+            <div class="jr">
+                <div class="jr-top">
+                    <div class="jr-stats"></div>
+                    <div class="jr-legend">
+                        <span><i class="jr-swatch jr-swatch--work"></i>Work</span>
+                        <span><i class="jr-swatch jr-swatch--edu"></i>Education</span>
+                    </div>
+                </div>
+
+                <div class="jr-chart" role="tablist" aria-label="Career timeline">
+                    <div class="jr-axis" aria-hidden="true"></div>
+                    <!-- Rows are generated from the items below -->
+                </div>
+
+                <div class="jr-detail" role="tabpanel" aria-live="polite"></div>
+
+                <!--
+                    ======== EDIT YOUR TIMELINE HERE ========
+                    One <article> per item. data-start / data-end = YYYY-MM.
+                    data-kind = "work" or "edu". Leave data-end empty for "Present".
+                    Items are shown newest first inside each group.
+                -->
+                <div class="jr-items" hidden>
+                    <article data-kind="work" data-start="2025-03" data-end="2025-06"
+                             data-title="Data Analyst Intern" data-org="LC Waikiki" data-short="LC Waikiki">
+                        <p class="jr-sub">IT &amp; Software Department</p>
+                        <ul>
                             <li>Used SQL queries to extract relevant datasets from LC Waikiki's internal data warehouse</li>
                             <li>Contributed to a team project optimizing stock allocation across regions based on historical demand patterns</li>
-                            <li>Assisted in analyzing inventory turnover and sales data by creating automated Excel dashboards and Tableau visualisations</li>
+                            <li>Analyzed inventory turnover and sales data with automated Excel dashboards and Tableau visualisations</li>
                         </ul>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>Machine Learning Engineer</h3>
-                            <span class="timeline-date">Oct 2024 - Jan 2025</span>
-                        </div>
-                        <p class="timeline-company">NewMind AI</p>
-                        <ul class="timeline-list">
-                            <li>Contributed to the development and optimization of NLP models and LLMs for the legal sector</li>
-                            <li>Focused on tasks such as training, testing, fine-tuning, sentence classification, and smart text segmentation</li>
-                            <li>Worked on Natural Language Processing projects</li>
+                        <div class="jr-tags"><span>SQL</span><span>Excel</span><span>Tableau</span><span>Retail Analytics</span></div>
+                    </article>
+
+                    <article data-kind="work" data-start="2024-10" data-end="2025-01"
+                             data-title="Machine Learning Engineer" data-org="NewMind AI" data-short="NewMind AI">
+                        <ul>
+                            <li>Developed and optimized NLP models and LLMs for the legal sector</li>
+                            <li>Worked on training, testing and fine-tuning, sentence classification and smart text segmentation</li>
                         </ul>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>CRM and Data Analyst</h3>
-                            <span class="timeline-date">Feb 2024 - Oct 2024</span>
-                        </div>
-                        <p class="timeline-company">CovAze Travel Agency</p>
-                        <ul class="timeline-list">
-                            <li>Analyzed agency sales data using Python to identify demand trends and optimize tour package offerings</li>
-                            <li>Created data visualisations and dashboards using Tableau to provide insights into customer behavior</li>
-                            <li>Developed a Tour Package Builder web application, automating the creation of tour proposals</li>
+                        <div class="jr-tags"><span>NLP</span><span>LLMs</span><span>Fine-tuning</span><span>Python</span></div>
+                    </article>
+
+                    <article data-kind="work" data-start="2024-02" data-end="2024-10"
+                             data-title="CRM &amp; Data Analyst" data-org="CovAze Travel Agency" data-short="CovAze Travel">
+                        <ul>
+                            <li>Analyzed agency sales data in Python to identify demand trends and optimize tour package offerings</li>
+                            <li>Built Tableau dashboards that gave insight into customer behaviour</li>
+                            <li>Developed a Tour Package Builder web app that automates the creation of tour proposals</li>
                         </ul>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>Data Science Teaching Assistant</h3>
-                            <span class="timeline-date">Jun 2023 - Dec 2023</span>
-                        </div>
-                        <p class="timeline-company">MIUUL</p>
-                        <ul class="timeline-list">
-                            <li>Provided guidance and support to participants</li>
-                            <li>Mentored on their journey to learn data science and machine learning</li>
-                            <li>Code reviewing and leading about scripts and projects of related data science topics</li>
+                        <div class="jr-tags"><span>Python</span><span>Tableau</span><span>CRM</span><span>JavaScript</span></div>
+                    </article>
+
+                    <article data-kind="work" data-start="2023-06" data-end="2023-12"
+                             data-title="Data Science Teaching Assistant" data-org="MIUUL" data-short="MIUUL">
+                        <ul>
+                            <li>Guided and mentored bootcamp participants learning data science and machine learning</li>
+                            <li>Reviewed participants' code and led discussions on data science scripts and projects</li>
                         </ul>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>Python Instructor</h3>
-                            <span class="timeline-date">Jul 2021 - Dec 2022</span>
-                        </div>
-                        <p class="timeline-company">DataStat | Baku/Azerbaijan</p>
-                        <ul class="timeline-list">
-                            <li>Successfully delivered lessons on Python basics, SQL, and Data Analysis and Visualization</li>
-                            <li>Utilized engaging teaching methods, interactive exercises, and real-world examples to enhance learning outcomes</li>
+                        <div class="jr-tags"><span>Mentoring</span><span>Code Review</span><span>Machine Learning</span></div>
+                    </article>
+
+                    <article data-kind="work" data-start="2021-07" data-end="2022-12"
+                             data-title="Python Instructor" data-org="DataStat · Baku, Azerbaijan" data-short="DataStat, Baku">
+                        <ul>
+                            <li>Taught Python basics, SQL, and data analysis &amp; visualization</li>
+                            <li>Used interactive exercises and real-world examples to improve learning outcomes</li>
                         </ul>
-                    </div>
+                        <div class="jr-tags"><span>Python</span><span>SQL</span><span>Teaching</span></div>
+                    </article>
+
+                    <article data-kind="edu" data-start="2025-09" data-end="2026-09"
+                             data-title="MSc Data Science" data-org="University of Sheffield" data-short="Univ. of Sheffield">
+                        <p class="jr-sub">Relevant courses</p>
+                        <div class="jr-tags"><span>Data Mining &amp; AI</span><span>Data Visualisation</span><span>Data Analysis</span><span>Database Design</span><span>Business Intelligence</span><span>Data &amp; Society</span><span>HCI &amp; User-Centred Design</span></div>
+                    </article>
+
+                    <article data-kind="edu" data-start="2023-01" data-end="2023-05"
+                             data-title="Data Scientist Bootcamp" data-org="Data Science School (VBO)" data-short="VBO Bootcamp">
+                        <ul>
+                            <li>Intensive bootcamp covering machine learning, A/B testing, CRM analytics and feature engineering</li>
+                            <li>Built practical data analysis and modelling skills through hands-on projects, including MSSQL for data retrieval</li>
+                        </ul>
+                        <div class="jr-tags"><span>Machine Learning</span><span>A/B Testing</span><span>CRM Analytics</span><span>MSSQL</span></div>
+                    </article>
+
+                    <article data-kind="edu" data-start="2020-09" data-end="2024-09"
+                             data-title="BSc Industrial Engineering" data-org="Yıldız Technical University" data-short="Yıldız Technical Univ." data-badge="GPA 3.40">
+                        <p class="jr-sub">Relevant courses</p>
+                        <div class="jr-tags"><span>AI &amp; Expert Systems</span><span>Probability</span><span>Statistics</span><span>Linear Algebra</span><span>Operations Research</span><span>Numerical Analysis</span><span>Differential Equations</span><span>Scheduling</span><span>Industrial Automation</span></div>
+                    </article>
                 </div>
             </div>
         </div>
@@ -532,6 +504,7 @@
 
     <script src="script.js"></script>
     <script src="hero.js"></script>
+    <script src="journey.js"></script>
 </body>
 </html>
 
