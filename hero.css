@@ -21,12 +21,8 @@ html.hx-intro .navbar {
     box-shadow: none;
     backdrop-filter: none;
 }
-.navbar:not(.scrolled) .nav-link { color: rgba(255, 255, 255, .72); }
-.navbar:not(.scrolled) .nav-link:hover,
-.navbar:not(.scrolled) .nav-link.active { color: #fff; }
-.navbar:not(.scrolled) .nav-link::after { background: #fff; }
+
 .navbar:not(.scrolled) .hamburger span { background: #fff; }
-.navbar:not(.scrolled) .logo { color: #fff; }
 
 .logo {
     font-size: .95rem;
@@ -222,8 +218,8 @@ html.hx-intro .navbar {
 
 /* final word in the site red (name stays silver) */
 .hx-g--red {
-    background: linear-gradient(180deg, color-mix(in srgb, var(--accent-light) 80%, #fff) 0%, var(--accent-light) 30%, var(--accent) 65%, var(--accent-dark) 100%);
+    background: var(--accent);
     -webkit-background-clip: text;
     background-clip: text;
-    filter: drop-shadow(0 0 .12em rgba(var(--accent-rgb), .28));
+    filter: drop-shadow(0 0 .18em rgba(var(--accent-rgb), .45));
 }

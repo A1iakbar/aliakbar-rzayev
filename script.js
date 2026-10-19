@@ -99,6 +99,7 @@ function highlightNavLink() {
 }
 
 window.addEventListener('scroll', highlightNavLink);
+highlightNavLink();
 
 // Typing effect for hero title (optional enhancement)
 function typeWriter(element, text, speed = 100) {
