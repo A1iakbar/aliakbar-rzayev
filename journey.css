@@ -16,7 +16,7 @@
 
 .jr {
     --lw: 270px;            /* label column width */
-    --red: var(--primary-color, #dc2626);
+    --red: var(--accent);
     max-width: 1100px;
     margin: 0 auto;
 }
@@ -42,7 +42,7 @@
 .jr-legend { display: flex; gap: 1.1rem; color: #8b8f98; font-size: .8rem; }
 .jr-legend span { display: inline-flex; align-items: center; gap: .45rem; }
 .jr-swatch { width: 18px; height: 6px; border-radius: 99px; display: inline-block; }
-.jr-swatch--work { background: linear-gradient(90deg, #7f1d1d, var(--red)); }
+.jr-swatch--work { background: linear-gradient(90deg, var(--accent-dark), var(--red)); }
 .jr-swatch--edu  { background: linear-gradient(90deg, #4b5563, #e5e7eb); }
 
 /* ---------- chart ---------- */
@@ -177,7 +177,7 @@
     transform-origin: left center;
     transition: transform .9s cubic-bezier(.2, .8, .2, 1), height .3s ease, box-shadow .3s ease, filter .3s ease;
 }
-.is-work .jr-bar { background: linear-gradient(90deg, #7f1d1d, var(--red)); }
+.is-work .jr-bar { background: linear-gradient(90deg, var(--accent-dark), var(--red)); }
 .is-edu  .jr-bar { background: linear-gradient(90deg, #4b5563, #e5e7eb); }
 .jr-chart.is-in .jr-bar { transform: translateY(-50%) scaleX(1); }
 
@@ -200,7 +200,7 @@
 .jr-row.is-edu.is-active::before { background: #e5e7eb; }
 .jr-row.is-active .jr-label b { color: #fff; }
 .jr-row.is-active .jr-bar { height: 16px; }
-.jr-row.is-work.is-active .jr-bar { box-shadow: 0 0 22px rgba(220, 38, 38, .55); }
+.jr-row.is-work.is-active .jr-bar { box-shadow: 0 0 22px rgba(var(--accent-rgb), .55); }
 .jr-row.is-edu.is-active .jr-bar  { box-shadow: 0 0 22px rgba(229, 231, 235, .35); }
 
 /* ---------- detail card ---------- */
@@ -211,7 +211,7 @@
     border: 1px solid rgba(255, 255, 255, .08);
     border-radius: 16px;
     background:
-        radial-gradient(ellipse 60% 120% at 0% 0%, rgba(220, 38, 38, .09), transparent 60%),
+        radial-gradient(ellipse 60% 120% at 0% 0%, rgba(var(--accent-rgb), .09), transparent 60%),
         linear-gradient(180deg, #0e0e0f, #090909);
     min-height: 210px;
     overflow: hidden;
@@ -237,7 +237,7 @@
     padding: .28rem .6rem;
     border-radius: 99px;
 }
-.jr-chip--work { color: #fca5a5; background: rgba(220, 38, 38, .14); border: 1px solid rgba(220, 38, 38, .35); }
+.jr-chip--work { color: var(--accent-soft); background: rgba(var(--accent-rgb), .14); border: 1px solid rgba(var(--accent-rgb), .35); }
 .jr-chip--edu  { color: #e5e7eb; background: rgba(229, 231, 235, .08); border: 1px solid rgba(229, 231, 235, .25); }
 
 .jr-d-dates { color: #9a9ea7; font-size: .85rem; font-variant-numeric: tabular-nums; }
@@ -404,7 +404,7 @@
         top: .6rem;
         bottom: .6rem;
         width: 1px;
-        background: linear-gradient(var(--red), rgba(220, 38, 38, .1));
+        background: linear-gradient(var(--red), rgba(var(--accent-rgb), .1));
     }
     .jr-m-list.is-edu::before { background: linear-gradient(#e5e7eb, rgba(229, 231, 235, .1)); }
 
@@ -422,7 +422,7 @@
         transition: background .25s ease, box-shadow .25s ease;
     }
     .is-edu .jr-m-item::before { border-color: #e5e7eb; }
-    .jr-m-item.is-open::before { background: var(--red); box-shadow: 0 0 12px rgba(220, 38, 38, .7); }
+    .jr-m-item.is-open::before { background: var(--red); box-shadow: 0 0 12px rgba(var(--accent-rgb), .7); }
     .is-edu .jr-m-item.is-open::before { background: #e5e7eb; box-shadow: 0 0 12px rgba(229, 231, 235, .5); }
 
     .jr-m-head {
@@ -441,14 +441,14 @@
         transition: border-color .25s ease, background .25s ease;
     }
     .jr-m-item.is-open .jr-m-head {
-        border-color: rgba(220, 38, 38, .35);
+        border-color: rgba(var(--accent-rgb), .35);
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         background: #121214;
     }
     .is-edu .jr-m-item.is-open .jr-m-head { border-color: rgba(229, 231, 235, .25); }
 
-    .jr-m-date { font-size: .74rem; color: #f87171; font-variant-numeric: tabular-nums; }
+    .jr-m-date { font-size: .74rem; color: var(--accent-soft); font-variant-numeric: tabular-nums; }
     .is-edu .jr-m-date { color: #d1d5db; }
     .jr-m-date i { font-style: normal; color: #6b6f78; margin-left: .45rem; }
     .jr-m-date i::before { content: '· '; }
@@ -505,7 +505,7 @@
     }
     .jr-m-item.is-open .jr-m-inner {
         padding: .2rem 1rem 1rem;
-        border-color: rgba(220, 38, 38, .35);
+        border-color: rgba(var(--accent-rgb), .35);
     }
     .is-edu .jr-m-item.is-open .jr-m-inner { border-color: rgba(229, 231, 235, .25); }
 

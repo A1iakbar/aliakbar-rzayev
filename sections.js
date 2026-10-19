@@ -3,7 +3,15 @@
    ========================================================== */
 (() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const RED = '#dc2626';
+    /* colour comes from --accent / --accent-rgb in styles.css */
+    let RED = '#dc2626', RGB = '220, 38, 38';
+    const readAccent = () => {
+        const css = getComputedStyle(document.documentElement);
+        RED = css.getPropertyValue('--accent').trim() || RED;
+        RGB = css.getPropertyValue('--accent-rgb').trim() || RGB;
+    };
+    readAccent();
+    const acc = a => `rgba(${RGB}, ${a})`;
     const onView = (el, cb, threshold = .2) => {
         if (!el) return;
         if (!('IntersectionObserver' in window)) return cb();
@@ -60,10 +68,10 @@
         [...tr.children].slice(n).forEach(c => c.setAttribute('aria-hidden', 'true'));
     });
 
-    /* 3. Sheffield local time (About + Contact) */
+    /* 3. Baku local time (Contact) */
     const clocks = document.querySelectorAll('.ab-clock');
     if (clocks.length) {
-        const fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', hour: '2-digit', minute: '2-digit' });
+        const fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Baku', hour: '2-digit', minute: '2-digit' });
         const tick = () => { const t = fmt.format(new Date()); clocks.forEach(c => { c.textContent = t; }); };
         tick();
         setInterval(tick, 15000);
@@ -154,9 +162,47 @@
     const items = [...list.querySelectorAll('.pj-item')];
 
     /* numbering */
+    /* ---------- phones: compact tap-to-open cards (built from each row) ---------- */
+    items.forEach((it, i) => {
+        const link = it.querySelector('.pj-link');
+        const name = it.querySelector('.pj-name').textContent;
+        const tags = it.querySelector('.pj-tags').textContent;
+        const desc = it.querySelector('.pj-desc').textContent;
+        const go = it.querySelector('.pj-go').textContent.replace('↗', '').trim();
+        const m = document.createElement('div');
+        m.className = 'pj-m';
+        m.innerHTML = `
+            <button type="button" class="pj-m-head" aria-expanded="false">
+                <span class="pj-m-num"></span>
+                <span class="pj-m-text"><span class="pj-m-name">${name}</span><span class="pj-m-meta">${tags}</span></span>
+                <span class="pj-m-plus" aria-hidden="true"></span>
+            </button>
+            <div class="pj-m-body"><div class="pj-m-inner">
+                <canvas class="pj-art" aria-hidden="true"></canvas>
+                <p class="pj-m-metric">${it.dataset.metric || ''}</p>
+                <p class="pj-m-desc">${desc}</p>
+                <a class="pj-m-go" href="${link.href}" target="_blank" rel="noopener">Open ${go} <i>↗</i></a>
+            </div></div>`;
+        const head = m.querySelector('.pj-m-head');
+        head.addEventListener('click', () => {
+            const open = !it.classList.contains('is-open');
+            items.forEach(x => {
+                x.classList.toggle('is-open', x === it && open);
+                const h = x.querySelector('.pj-m-head');
+                if (h) h.setAttribute('aria-expanded', String(x === it && open));
+            });
+        });
+        it.appendChild(m);
+        if (i === 0) { it.classList.add('is-open'); head.setAttribute('aria-expanded', 'true'); }
+    });
+
     const renumber = () => {
         let k = 0;
-        items.forEach(it => { if (!it.classList.contains('is-hidden')) it.querySelector('.pj-num').textContent = String(++k).padStart(2, '0'); });
+        items.forEach(it => {
+            if (it.classList.contains('is-hidden')) return;
+            const n = String(++k).padStart(2, '0');
+            it.querySelectorAll('.pj-num, .pj-m-num').forEach(el => { el.textContent = n; });
+        });
     };
     renumber();
 
@@ -219,7 +265,7 @@
             for (let i = 0; i <= 80 * prog; i++) { const x = i / 80; pts.push([P + x * W, P + H - (1 - Math.pow(1 - x, k)) * H]); }
             if (pts.length > 1) {
                 c.beginPath(); c.moveTo(P, P + H); pts.forEach(p => c.lineTo(p[0], p[1])); c.lineTo(pts[pts.length - 1][0], P + H); c.closePath();
-                const g = c.createLinearGradient(0, P, 0, P + H); g.addColorStop(0, 'rgba(220,38,38,.35)'); g.addColorStop(1, 'rgba(220,38,38,0)');
+                const g = c.createLinearGradient(0, P, 0, P + H); g.addColorStop(0, acc(.35)); g.addColorStop(1, acc(0));
                 c.fillStyle = g; c.fill();
                 c.beginPath(); pts.forEach((p, i) => i ? c.lineTo(p[0], p[1]) : c.moveTo(p[0], p[1]));
                 c.strokeStyle = RED; c.lineWidth = 2.2; c.shadowColor = RED; c.shadowBlur = 10; c.stroke(); c.shadowBlur = 0; c.lineWidth = 1;
@@ -238,7 +284,7 @@
                 const near = nodes.map((m, j) => [j, Math.hypot(m.x - n.x, m.y - n.y)]).sort((a, b) => a[1] - b[1]).slice(1, 3);
                 near.forEach(([j]) => {
                     const m = nodes[j];
-                    c.strokeStyle = (n.big || m.big) ? 'rgba(220,38,38,.35)' : 'rgba(255,255,255,.12)';
+                    c.strokeStyle = (n.big || m.big) ? acc(.35) : 'rgba(255,255,255,.12)';
                     c.beginPath(); c.moveTo(n.x, n.y); c.lineTo(m.x, m.y); c.stroke();
                     if (i % 4 === 0) {
                         const p = (t * .5 + i * .13) % 1;
@@ -271,13 +317,13 @@
             const r = rng(11), P = 24, f = x => 1 / (1 + Math.exp(-(x - .5) * 9));
             for (let i = 0; i < 70; i++) {
                 const x = r(), yes = r() < f(x);
-                dot(c, P + x * (w - 2 * P), yes ? P + r() * 10 : h - P - r() * 10, 2.2, yes ? 'rgba(220,38,38,.75)' : 'rgba(255,255,255,.45)');
+                dot(c, P + x * (w - 2 * P), yes ? P + r() * 10 : h - P - r() * 10, 2.2, yes ? acc(.75) : 'rgba(255,255,255,.45)');
             }
             c.beginPath();
             for (let i = 0; i <= 100; i++) { const x = i / 100; const X = P + x * (w - 2 * P), Y = h - P - f(x) * (h - 2 * P); i ? c.lineTo(X, Y) : c.moveTo(X, Y); }
             c.strokeStyle = '#fff'; c.lineWidth = 2; c.stroke(); c.lineWidth = 1;
             const sx = (Math.sin(t * .9) + 1) / 2, X = P + sx * (w - 2 * P), Y = h - P - f(sx) * (h - 2 * P);
-            c.strokeStyle = 'rgba(220,38,38,.5)'; c.beginPath(); c.moveTo(X, P); c.lineTo(X, h - P); c.stroke();
+            c.strokeStyle = acc(.5); c.beginPath(); c.moveTo(X, P); c.lineTo(X, h - P); c.stroke();
             dot(c, X, Y, 5, RED, 14);
             label(c, 'p = ' + f(sx).toFixed(2), X + 8, Y - 6, '#fff');
             label(c, 'checks use-by', P, P - 8); label(c, "doesn't", P, h - 6);
@@ -301,7 +347,7 @@
             const pts = [[.12, .7], [.32, .3], [.52, .62], [.7, .28], [.86, .58]].map(([x, y]) => [x * w, y * h]);
             for (let y = 10; y < h; y += 14) for (let x = 10; x < w; x += 14) { c.fillStyle = 'rgba(255,255,255,.06)'; c.fillRect(x, y, 1.5, 1.5); }
             c.setLineDash([5, 6]); c.lineDashOffset = -t * 20;
-            c.strokeStyle = 'rgba(220,38,38,.7)'; c.lineWidth = 1.6; c.beginPath();
+            c.strokeStyle = acc(.7); c.lineWidth = 1.6; c.beginPath();
             pts.forEach((p, i) => { if (!i) c.moveTo(p[0], p[1]); else { const q = pts[i - 1]; c.quadraticCurveTo((q[0] + p[0]) / 2, Math.min(q[1], p[1]) - 30, p[0], p[1]); } });
             c.stroke(); c.setLineDash([]); c.lineWidth = 1;
             const seg = (t * .5) % (pts.length - 1), i = Math.floor(seg), f = seg - i, a = pts[i], b = pts[i + 1];
@@ -342,6 +388,7 @@
             canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
         }
         c.setTransform(dpr, 0, 0, dpr, 0, 0);
+        readAccent();
         c.clearRect(0, 0, w, h);
         c.fillStyle = '#0b0b0c'; c.fillRect(0, 0, w, h);
         grid(c, w, h);
@@ -392,26 +439,29 @@
                 if (!raf) raf = requestAnimationFrame(frame);
             });
         });
-        list.addEventListener('pointermove', e => { if (on) place(e); });
+        let px = -1, py = -1;
+        list.addEventListener('pointermove', e => { px = e.clientX; py = e.clientY; if (on) place(e); });
         list.addEventListener('pointerleave', () => { on = false; preview.classList.remove('is-on'); });
-        window.addEventListener('scroll', () => { if (on && !list.matches(':hover')) { on = false; preview.classList.remove('is-on'); } }, { passive: true });
+        /* hide the card as soon as the list scrolls away from under the cursor */
+        window.addEventListener('scroll', () => {
+            if (!on) return;
+            const r = list.getBoundingClientRect();
+            if (px < r.left || px > r.right || py < r.top || py > r.bottom) { on = false; preview.classList.remove('is-on'); }
+        }, { passive: true });
     }
 
     /* ---------- phones / touch: a live chart inside every row ---------- */
     const inline = [];
     items.forEach(it => {
-        const cv = document.createElement('canvas');
-        cv.className = 'pj-art';
-        cv.setAttribute('aria-hidden', 'true');
-        it.querySelector('.pj-link').prepend(cv);
-        inline.push({ cv, kind: it.dataset.art, vis: false });
+        const cv = it.querySelector('.pj-m .pj-art');
+        if (cv) inline.push({ cv, it, kind: it.dataset.art, vis: false });
     });
     const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => {
         es.forEach(e => { const o = inline.find(i => i.cv === e.target); if (o) o.vis = e.isIntersecting; });
     }) : null;
     inline.forEach(o => io && io.observe(o.cv));
     const inlineLoop = now => {
-        if (!fine.matches) inline.forEach(o => { if (o.vis && o.cv.clientWidth) paint(o.cv, o.kind, reduce ? 1.5 : now / 1000); });
+        if (!fine.matches) inline.forEach(o => { if (o.vis && o.it.classList.contains('is-open') && o.cv.clientWidth) paint(o.cv, o.kind, reduce ? 1.5 : now / 1000); });
         if (!reduce) requestAnimationFrame(inlineLoop);
     };
     requestAnimationFrame(inlineLoop);

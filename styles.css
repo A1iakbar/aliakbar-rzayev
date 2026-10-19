@@ -6,19 +6,31 @@
 }
 
 :root {
-    --primary-color: #dc2626;
-    --primary-dark: #b91c1c;
-    --secondary-color: #ef4444;
+    /* ===================== THEME COLOUR =====================
+       Change ONLY these 4 lines to recolour the whole site.
+       --accent-rgb must be the same colour as --accent, written as "R, G, B".
+       ======================================================== */
+       --accent: #ff0800;
+    --accent-light: #ff4d4d;
+    --accent-dark: #8a0000;
+    --accent-rgb: 255, 8, 0; /* --accent as R, G, B */
+    /* ======================================================== */
+
+    --accent-soft: color-mix(in srgb, var(--accent-light) 55%, #fff);   /* pale tint, worked out automatically */
+
+    --primary-color: var(--accent);
+    --primary-dark: var(--accent-dark);
+    --secondary-color: var(--accent-light);
     --text-primary: #ffffff;
     --text-secondary: #d1d5db;
     --bg-primary: #000000;
     --bg-secondary: #0a0a0a;
     --bg-dark: #000000;
     --border-color: #1f1f1f;
-    --shadow-sm: 0 1px 2px 0 rgba(220, 38, 38, 0.1);
-    --shadow-md: 0 4px 6px -1px rgba(220, 38, 38, 0.2);
-    --shadow-lg: 0 10px 15px -3px rgba(220, 38, 38, 0.3);
-    --shadow-xl: 0 20px 25px -5px rgba(220, 38, 38, 0.4);
+    --shadow-sm: 0 1px 2px 0 rgba(var(--accent-rgb), 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(var(--accent-rgb), 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(var(--accent-rgb), 0.3);
+    --shadow-xl: 0 20px 25px -5px rgba(var(--accent-rgb), 0.4);
 }
 
 html {
@@ -130,7 +142,7 @@ body {
     display: flex;
     align-items: center;
     padding-top: 80px;
-    background: linear-gradient(135deg, #000000 0%, #1a0000 50%, #dc2626 100%);
+    background: linear-gradient(135deg, #000000 0%, #1a0000 50%, var(--accent) 100%);
     color: white;
     position: relative;
     overflow: hidden;
@@ -256,13 +268,13 @@ body {
     width: 300px;
     height: 300px;
     border-radius: 50%;
-    background: rgba(220, 38, 38, 0.2);
+    background: rgba(var(--accent-rgb), 0.2);
     backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 6rem;
-    border: 3px solid rgba(220, 38, 38, 0.5);
+    border: 3px solid rgba(var(--accent-rgb), 0.5);
 }
 
 .hero-photo {
@@ -270,15 +282,15 @@ body {
     height: 300px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid rgba(220, 38, 38, 0.5);
-    box-shadow: 0 10px 30px rgba(220, 38, 38, 0.3);
+    border: 3px solid rgba(var(--accent-rgb), 0.5);
+    box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.3);
     animation: fadeInRight 0.8s ease;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .hero-photo:hover {
     transform: scale(1.05);
-    box-shadow: 0 15px 40px rgba(220, 38, 38, 0.5);
+    box-shadow: 0 15px 40px rgba(var(--accent-rgb), 0.5);
 }
 
 .scroll-indicator {
@@ -370,7 +382,7 @@ section {
 .skill-tag:hover {
     border-color: var(--primary-color);
     color: var(--primary-color);
-    background: rgba(220, 38, 38, 0.1);
+    background: rgba(var(--accent-rgb), 0.1);
     transform: translateY(-2px);
 }
 

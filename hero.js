@@ -16,6 +16,9 @@
         photoFallback: 'https://i.ibb.co/GQRQ8bPN/Photo.jpg',
         fullIntroOncePerSession: true, // on refresh in the same tab, play the short version
 
+        /* intro speed: 1 = slow & dramatic, 0.7 = default, 0.5 = very quick */
+        speed: 0.7,
+
         /* portrait placement (fractions of the hero height / width) */
         photoTop: .08,       // where the top of your head sits (0 = top of screen)
         photoBottom: 1.05,   // where the bottom of the photo ends (1 = bottom of screen)
@@ -49,6 +52,7 @@
     /* ---------------- skip-able sleep ---------------- */
     let skipCtl = new AbortController();
     const SKIP = new Error('skip');
+    const T = ms => ms * CFG.speed;                 // scales every intro timing
     const sleep = ms => new Promise((res, rej) => {
         if (skipCtl.signal.aborted) return rej(SKIP);
         const t = setTimeout(res, ms);
@@ -155,7 +159,7 @@
         hero.classList.add('is-ready', 'is-intro');
         follow = dot;
 
-        await sleep(450);
+        await sleep(T(300));
 
         /* 1. dot falls and bounces */
         const y0 = -L(H * .62), xA = -L(W * .1);
@@ -168,7 +172,7 @@
             { transform: `translate(${-xA * .06}px, ${y0 * .12}px) scale(1,1)`, offset: .86, easing: IN },
             { transform: 'translate(0px, 0px) scale(1.15,.85)', offset: .96 },
             { transform: 'translate(0px, 0px) scale(1,1)' }
-        ], { duration: 1600, fill: 'both' }).finished;
+        ], { duration: T(1300), fill: 'both' }).finished;
 
         /* 2. the bar drops on top → "!" */
         stem.style.transformOrigin = '50% 100%';
@@ -177,15 +181,15 @@
             { transform: 'translateY(0px) scale(1,1)', opacity: 1, offset: .72 },
             { transform: 'translateY(0px) scale(1.1,.84)', opacity: 1, offset: .84 },
             { transform: 'translateY(0px) scale(1,1)', opacity: 1 }
-        ], { duration: 600, fill: 'both' }).finished;
+        ], { duration: T(600), fill: 'both' }).finished;
         flash();
-        await sleep(380);
+        await sleep(T(250));
 
         /* 3. bar tips over while the letters tumble in */
         const order = [];
         for (let k = iIdx - 1; k >= 0; k--) order.push(k);
         for (let k = iIdx + 1; k < slots.length; k++) order.push(k);
-        const STAG = 120, DUR = 780;
+        const STAG = T(120), DUR = T(780);
         const total = order.length * STAG + DUR;
 
         stem.animate([
@@ -218,18 +222,18 @@
 
         /* dot disappears */
         await dot.animate([{ opacity: 1, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(0)' }],
-            { duration: 380, easing: 'ease-in', fill: 'forwards' }).finished;
+            { duration: T(380), easing: 'ease-in', fill: 'forwards' }).finished;
         dot.remove();
-        await sleep(520);
+        await sleep(T(250));
 
         /* 4. morph name → final word */
         await morph(CFG.word);
-        await sleep(450);
+        await sleep(T(250));
 
         /* 5. slide down, reveal everything */
         const move = wrap.animate([{ transform: pose.intro }, { transform: pose.final }],
-            { duration: 1100, easing: 'cubic-bezier(.76,0,.24,1)', fill: 'forwards' });
-        setTimeout(reveal, 250);
+            { duration: T(1100), easing: 'cubic-bezier(.76,0,.24,1)', fill: 'forwards' });
+        setTimeout(reveal, T(250));
         await move.finished;
         wrap.style.transform = pose.final;
         move.cancel();
@@ -248,13 +252,13 @@
             g.animate([
                 { transform: 'perspective(400px) rotateX(-90deg)', opacity: .2, filter: 'blur(4px)' },
                 { transform: 'perspective(400px) rotateX(0deg)', opacity: 1, filter: 'blur(0px)' }
-            ], { duration: 280, easing: 'cubic-bezier(.2,.8,.2,1)' });
-            await sleep(85);
+            ], { duration: T(280), easing: 'cubic-bezier(.2,.8,.2,1)' });
+            await sleep(T(85));
         }
         while (slots.length > to.length) {
             const s = slots.pop();
             s.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160 }).finished.then(() => s.remove(), () => s.remove());
-            await sleep(70);
+            await sleep(T(70));
         }
         wordEl.setAttribute('aria-label', to);
     }
@@ -489,7 +493,7 @@
                     /* dim particles lean blue, bright ones go white (like the reference) */
                     const w = Math.min(1, l * 1.15 + rand(-.12, .12));
                     cr[i] = 95 + 150 * w; cg[i] = 120 + 130 * w; cb[i] = 200 + 55 * w;
-                    dl[i] = .25 + (py / H) * .95 + rand(0, .75);
+                    dl[i] = (.25 + (py / H) * .95 + rand(0, .75)) * CFG.speed;
                 } else {
                     isStar[i] = 1;
                     tx[i] = sx[i]; ty[i] = sy[i];
