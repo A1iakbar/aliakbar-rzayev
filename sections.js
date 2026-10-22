@@ -238,6 +238,46 @@
     };
 
     const ART = {
+        match(c, w, h, t) {
+            /* two student profiles -> habit bars fill -> compatibility ring -> rent split in half */
+            const cyc = t % 6.5, p = Math.min(1, cyc / 3), ease = 1 - Math.pow(1 - p, 3);
+            const rows = ['City', 'Budget', 'Sleep', 'Tidy'];
+            const A = [.82, .55, .3, .72], B = [.82, .6, .36, .78], score = 92;
+            const cw = Math.min(110, w * .32), top = 16, rowH = 24;
+            const card = (x, name, vals, other) => {
+                c.fillStyle = 'rgba(255,255,255,.04)'; c.fillRect(x, top, cw, 22 + rows.length * rowH + 6);
+                c.strokeStyle = 'rgba(255,255,255,.1)'; c.strokeRect(x + .5, top + .5, cw - 1, 22 + rows.length * rowH + 5);
+                dot(c, x + 13, top + 12, 6, 'rgba(255,255,255,.85)');
+                label(c, name, x + 24, top + 15, '#fff');
+                rows.forEach((lab, i) => {
+                    const y = top + 30 + i * rowH, bw = cw - 16, v = vals[i] * ease;
+                    const same = Math.abs(vals[i] - other[i]) < .1;
+                    label(c, lab, x + 8, y + 4, 'rgba(255,255,255,.45)');
+                    c.fillStyle = 'rgba(255,255,255,.08)'; c.fillRect(x + 8, y + 8, bw, 4);
+                    c.fillStyle = same && p > .6 ? RED : 'rgba(255,255,255,.55)'; c.fillRect(x + 8, y + 8, bw * v, 4);
+                });
+            };
+            card(12, 'Student A', A, B);
+            card(w - cw - 12, 'Student B', B, A);
+            /* compatibility ring */
+            const cx = w / 2, cy = top + 58, R = Math.min(34, (w - 2 * cw - 40) / 2);
+            c.lineWidth = 6; c.strokeStyle = 'rgba(255,255,255,.08)';
+            c.beginPath(); c.arc(cx, cy, R, 0, Math.PI * 2); c.stroke();
+            c.strokeStyle = RED; c.shadowColor = RED; c.shadowBlur = 12;
+            c.beginPath(); c.arc(cx, cy, R, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (score / 100) * ease); c.stroke();
+            c.shadowBlur = 0; c.lineWidth = 1;
+            c.fillStyle = '#fff'; c.font = '700 15px Inter, sans-serif'; c.textAlign = 'center';
+            c.fillText(Math.round(score * ease) + '%', cx, cy + 5);
+            label(c, 'match', cx, cy + 18, 'rgba(255,255,255,.5)', 'center');
+            /* rent split */
+            if (cyc > 3.2) {
+                const a = Math.min(1, (cyc - 3.2) / .6), y = h - 18;
+                c.globalAlpha = a;
+                label(c, 'Rent  €900', cx - 6, y, 'rgba(255,255,255,.45)', 'right');
+                label(c, '→  €450 each', cx + 4, y, RED, 'left');
+                c.globalAlpha = 1;
+            }
+        },
         taxi(c, w, h, t) {
             /* street network; grey = random agent wandering, accent = learned Q-Learning route */
             const r = rng(13), cols = 9, rows = 5, P = 22;
