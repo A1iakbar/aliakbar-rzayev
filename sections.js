@@ -238,6 +238,76 @@
     };
 
     const ART = {
+        taxi(c, w, h, t) {
+            /* street network; grey = random agent wandering, accent = learned Q-Learning route */
+            const r = rng(13), cols = 9, rows = 5, P = 22;
+            const gx = (w - 2 * P) / (cols - 1), gy = (h - 2 * P - 14) / (rows - 1);
+            const N = [];
+            for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++)
+                N.push([P + i * gx + (r() - .5) * gx * .35, P + j * gy + (r() - .5) * gy * .35]);
+            const at = (i, j) => N[j * cols + i];
+            for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+                const a = at(i, j), main = j === 2 || i === 4;
+                c.strokeStyle = main ? 'rgba(255,255,255,.22)' : 'rgba(255,255,255,.08)';
+                c.lineWidth = main ? 2 : 1;
+                if (i < cols - 1) { const b = at(i + 1, j); c.beginPath(); c.moveTo(a[0], a[1]); c.lineTo(b[0], b[1]); c.stroke(); }
+                if (j < rows - 1) { const b = at(i, j + 1); c.beginPath(); c.moveTo(a[0], a[1]); c.lineTo(b[0], b[1]); c.stroke(); }
+            }
+            c.lineWidth = 1;
+            const path = (cells, prog, col, width, dash) => {
+                const pts = cells.map(([i, j]) => at(i, j)), n = (pts.length - 1) * prog;
+                c.strokeStyle = col; c.lineWidth = width; c.setLineDash(dash || []);
+                c.beginPath(); c.moveTo(pts[0][0], pts[0][1]);
+                for (let k = 1; k <= Math.floor(n); k++) c.lineTo(pts[k][0], pts[k][1]);
+                const k = Math.floor(n), f = n - k;
+                let head = pts[k];
+                if (k < pts.length - 1) { head = [pts[k][0] + (pts[k + 1][0] - pts[k][0]) * f, pts[k][1] + (pts[k + 1][1] - pts[k][1]) * f]; c.lineTo(head[0], head[1]); }
+                c.stroke(); c.setLineDash([]); c.lineWidth = 1;
+                return head;
+            };
+            const taxiAt = [0, 4], pax = [4, 1], dest = [8, 3];
+            const randomWalk = [[0,4],[1,4],[1,3],[0,3],[0,2],[1,2],[2,2],[2,3],[3,3],[3,4],[4,4],[4,3],[3,3],[3,2],[3,1],[4,1],[5,1],[5,0],[6,0],[6,1],[7,1],[7,2],[6,2],[6,3],[7,3],[7,4],[8,4],[8,3]];
+            const learned = [[0,4],[0,3],[0,2],[1,2],[2,2],[3,2],[4,2],[4,1],[4,2],[5,2],[6,2],[7,2],[8,2],[8,3]];
+            const cyc = t % 6, prog = Math.min(1, cyc / 3.6);
+            path(randomWalk, 1, 'rgba(255,255,255,.18)', 1.2, [3, 4]);
+            c.shadowColor = RED; c.shadowBlur = 10;
+            const head = path(learned, prog, RED, 2.4);
+            c.shadowBlur = 0;
+            const T = at(...taxiAt), Pp = at(...pax), D = at(...dest);
+            dot(c, T[0], T[1], 4, 'rgba(255,255,255,.6)');
+            c.strokeStyle = '#fff'; c.lineWidth = 1.5; c.beginPath(); c.arc(Pp[0], Pp[1], 6, 0, Math.PI * 2); c.stroke(); c.lineWidth = 1;
+            c.fillStyle = '#fff'; c.fillRect(D[0] - 5, D[1] - 5, 10, 10);
+            dot(c, head[0], head[1], 5, '#fff', 14);
+            label(c, 'passenger', Pp[0] + 9, Pp[1] - 7, 'rgba(255,255,255,.7)');
+            label(c, 'drop-off', D[0] - 8, D[1] + 18, 'rgba(255,255,255,.7)', 'right');
+            label(c, '— random agent', P, h - 6, 'rgba(255,255,255,.45)');
+            label(c, '— Q-learning', w - P, h - 6, RED, 'right');
+        },
+        screen(c, w, h, t) {
+            /* recall vs share of papers screened: 95% recall reached after ~49% → 50.7% saved */
+            const P = 26, W = w - 2 * P, H = h - 2 * P, k = 5, cut = .493;
+            const X = x => P + x * W, Y = y => P + H - y * H;
+            c.fillStyle = acc(.12); c.fillRect(X(cut), P, W * (1 - cut), H);
+            label(c, '50.7% work saved', X(cut) + 8, P + H * .62, RED);
+            c.strokeStyle = 'rgba(255,255,255,.3)'; c.setLineDash([4, 4]);
+            c.beginPath(); c.moveTo(P, Y(.95)); c.lineTo(P + W, Y(.95)); c.stroke();
+            c.beginPath(); c.moveTo(X(cut), P); c.lineTo(X(cut), P + H); c.stroke(); c.setLineDash([]);
+            label(c, '95% recall', P + 4, Y(.95) - 6);
+            const prog = Math.min(1, (t % 5) / 2.6), pts = [];
+            for (let i = 0; i <= 90 * prog; i++) { const x = i / 90; pts.push([X(x), Y(1 - Math.pow(1 - x, k))]); }
+            if (pts.length > 1) {
+                c.beginPath(); pts.forEach((p, i) => i ? c.lineTo(p[0], p[1]) : c.moveTo(p[0], p[1]));
+                c.strokeStyle = '#fff'; c.lineWidth = 2; c.stroke(); c.lineWidth = 1;
+                const e = pts[pts.length - 1]; dot(c, e[0], e[1], 4.5, RED, 14);
+            }
+            const r = rng(9);   /* ranked papers along the bottom: relevant ones cluster at the front */
+            for (let i = 0; i < 60; i++) {
+                const x = i / 60, rel = r() < Math.pow(1 - x, 3) * .5;
+                c.fillStyle = rel ? RED : 'rgba(255,255,255,.18)';
+                c.fillRect(X(x), P + H + 6, Math.max(2, W / 60 - 2), rel ? 8 : 4);
+            }
+            label(c, 'papers screened →', P + W, h - 4, 'rgba(255,255,255,.45)', 'right');
+        },
         mood(c, w, h, t) {
             const r = rng(7), P = 22, cx = w / 2, cy = h / 2;
             c.strokeStyle = 'rgba(255,255,255,.18)'; c.beginPath();
